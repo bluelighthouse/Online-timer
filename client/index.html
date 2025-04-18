@@ -1,33 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#317EFB" />
+    <title>Timer Online</title>
     <script type="module" src="client.js"></script>
-</head>
-<body>
-    <label for="userId">Select user Id</label>
-    <input type="text" name="userId" id="userId">
-    <button id="submitUserId">Submit user Id</button>
-    <div class="timerContainer">
-        <!-- <div class="timer">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Welcome to TimeSpot</h1>
+    </header>
+
+    <main>
+      <section class="card">
+        <label for="userId">Select user Id</label>
+        <input type="text" name="userId" id="userId" />
+        <button id="submitUserId">Submit user Id</button>
+
+        <div class="timerContainer">
+        <!--  <div class="timer">
             <p id="timer1">3600</p>
             <button id="startStop1" class="startStop">Start</button>
-        </div>
-        
-        <div class="timer">
+          </div>
+
+          <div class="timer">
             <p id="timer2">3600</p>
             <button id="startStop2" class="startStop">Start</button>
-        </div> -->
-    </div>
+          </div> -->
+        </div>
 
-    <label for="timerValue">Timer value</label>
-    <input type="number" name="timerValue" id="timerValue" value="2500">
-    <button id="add">Add</button>
-    <br>
-    <label for="groupId">Submit group id</label>
-    <input type="number" name="groupId" id="groupId">
-    <button id="submitGroupId">Join group</button>
-</body>
+        <button id="addTimerBtn">+</button>
+
+        <label for="groupId">Submit group id</label>
+        <input type="number" name="groupId" id="groupId" />
+        <button id="submitGroupId">Join group</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - TimeSpot</p>
+    </footer>
+  </body>
 </html>

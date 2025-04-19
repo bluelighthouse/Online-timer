@@ -21,8 +21,10 @@ loginButton.addEventListener("click", () => {
 
 socket.on("loginSuccess", (userData) => {
     console.log("Login effettuato con successo!", userData);
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Reindirizza alla pagina index
+    socket.emit('sendUserId', userData.userId);
 });
+
 
 socket.on("loginError", (errorMessage) => {
     console.error("Errore di login: ", errorMessage);

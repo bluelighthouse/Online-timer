@@ -7,8 +7,27 @@ const socket = io("http://localhost:3000", {
 const submitUserId = document.querySelector("#submitUserId");
 const submitGroupId = document.querySelector("#submitGroupId");
 let userId = document.querySelector("#userId");
+const loginButton = document.querySelector("#loginButton");
+const usernameInput = document.querySelector("#username");
+const passwordInput = document.querySelector("#password");
 let clientTimerIds = new Set();
 
+loginButton.addEventListener("click", () => {
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+
+    socket.emit("login", username, password); // Invia nome e password al server
+});
+
+socket.on("loginSuccess", (userData) => {
+    console.log("Login effettuato con successo!", userData);
+    window.location.href = "index.html";
+});
+
+socket.on("loginError", (errorMessage) => {
+    console.error("Errore di login: ", errorMessage);
+    alert(errorMessage);
+});
 
 
 document.querySelector(".timerContainer").addEventListener('click',(event)=>{

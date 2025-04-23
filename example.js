@@ -55,6 +55,27 @@ let userTimers = {};
 io.on("connection", socket => {
     console.log(`Client connesso: ${socket.id}`); 
 
+    // Gestisce l'autenticazione
+    socket.on('login', (username, password) => {
+        const sql = `SELECT * FROM timer.users WHERE name = ? AND password = ?`;
+        connection.query(sql, [username, password], (error, results) => {
+            if (error) {
+                console.error('Errore nel server: ', error.message);
+                socket.emit('loginError', 'Errore nel server');
+                return;
+            }
+
+            if (results.length === 0) {
+                socket.emit('loginError', 'Nome utente o password non corretti');
+                return;
+            }
+
+            const user = results[0];
+            socket.emit('loginSuccess', { userId: user.id, username: user.name });
+        });
+    });
+
+
 
     socket.on('sendUserId', async (userId)=>{
             try{

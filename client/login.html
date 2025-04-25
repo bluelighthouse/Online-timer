@@ -8,28 +8,41 @@
     <link rel="stylesheet" href="css/styleLogin.css" />
 </head>
 <body>
-    <section class="container">
-        <div class="login-container">
-            <div class="circle circle-one"></div>
-            <div class="form-container">
-                <img src="timer.png" alt="illustration" class="illustration" />
-                <h1 class="opacity">LOGIN</h1>
-                <form>
-                    <input type="text" placeholder="USERNAME" id="username" />
-                    <input type="password" placeholder="PASSWORD" id="password" />
-                    <button class="opacity" id="loginButton">SUBMIT</button>
-                </form>
-                <div class="register-forget opacity">
-                    <a href="#">REGISTER</a>
-                    <a href="#">FORGOT PASSWORD</a>
-                </div>
-            </div>
-            <div class="circle circle-two"></div>
+      <div class="screen-1">
+        <div class="logo">
+        <img alt="timer" src="violetClock.png"/>
         </div>
-        <div class="theme-btn-container"></div> <!-- Contenitore per i pulsanti del tema -->
-    </section>
-</body>
-</html>
+        
+        <h1>Welcome to TimeSpot!</h1>
+        <!-- Email -->
+        <div class="email">
+          <label for="email">Username</label>
+          <div class="sec-2">
+            <ion-icon name="mail-outline"></ion-icon>
+            <input type="text" id="username" name="username" placeholder="Enter your username" />
+          </div>
+        </div>
+  
+        <!-- Password -->
+        <div class="password">
+          <label for="password">Password</label>
+          <div class="sec-2">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input class="pas" type="password" id="password" name="password" placeholder="············" />
+            <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <button class="login" id="loginButton">Login</button>
+  
+        <!-- Footer Links -->
+        <div class="footer">
+          <span><a href="#">Sign up</a></span>
+          <span><a href="#">Forgot Password?</a></span>
+        </div>
+      </div>
+  </body>
 </html>
 
 

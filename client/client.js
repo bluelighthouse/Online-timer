@@ -88,9 +88,11 @@ if (submitGroupId && timerContainer) {
                 clientTimerIds.add(timer.id);
                 const formattedTime = formatTime(timer.value);
                 let htmlContent = `<p id='timer${timer.id}'>${formattedTime}</p>
-                <button id='startStop${timer.id}' class='startStop'>Start / Stop</button>
+                <div class="timer-buttons">
+                <button id='startStop${timer.id}' class='startStop'>Start  Stop</button>
                 <button id='reset${timer.id}' class='reset'>Reset</button>
-                <button id='delete${timer.id}' class='delete'>Delete</button>`;
+                <button id='delete${timer.id}' class='delete'>Delete</button>
+                </div> `;
                 const newTimer = document.createElement('div');
                 newTimer.classList.add("timer");
                 newTimer.innerHTML = htmlContent;
@@ -103,10 +105,12 @@ if (submitGroupId && timerContainer) {
         if (userId == serverUserId && !clientTimerIds.has(timerId)) {
             clientTimerIds.add(timerId);
             const formattedTime = formatTime(timerValue);
-            let htmlContent = `<p id='timer${timerId}'>${formattedTime}</p>
-            <button id='startStop${timerId}' class='startStop'>Start / Stop</button>
+            let htmlContent = `<p id='timer${timerId}'class='timer-text'>${formattedTime}</p>
+            <div class="timer-buttons">
+            <button id='startStop${timerId}' class='startStop'>Start  Stop</button>
             <button id='reset${timerId}' class='reset'>Reset</button>
-            <button id='delete${timerId}' class='delete'>Delete</button>`;
+            <button id='delete${timerId}' class='delete'>Delete</button>
+            </div> `;
             const newTimer = document.createElement('div');
             newTimer.classList.add("timer");
             newTimer.innerHTML = htmlContent;

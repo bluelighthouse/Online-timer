@@ -1,12 +1,40 @@
-button.startStop,
-button.reset,
-button.delete {
+h2 {
+    color: #3e4684;
+    font-weight: 700;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+hr {
+    border: none;
+    height: 1.2px;
+    background-color: #3e4684;
+    margin: 30px;
+    margin-top: -20px;
+}
+.timer-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.timer-buttons button {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
-    padding: 10px 14px;
-    font-size: 0.9rem;
     border: none;
     border-radius: 999px;
     cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 button.startStop {
@@ -31,26 +59,28 @@ button.delete {
 }
 
 .timer {
-    background-color: white;
+    background-color: #f1f7fe;
     padding: 16px;
-    border: 1px solid #ccc;
+    color: #3e4684;
+    border: 3px solid #3e4684;
     border-radius: 12px;
-    width: 300px;
-    max-width: 300px;
+    width: 400px;
+    max-width: 400px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-weight: bold;
 }
 
 .timer p {
     font-size: 2rem;
     margin-bottom: 10px;
-    padding: 20px 30px;
-    border: 5px solid #ddd;
+    padding: 30px 40px;
+    border: 5px solid #3e4684;
     border-radius: 8px;
-    background-color: #f1f1f1;
+    background-color: #dde5f4;
     width: auto;
     text-align: center;
 }
@@ -63,8 +93,8 @@ button.delete {
 
 /* Input tempo */
 .time-inputs {
-    border: 4px solid #ddd;
-    background-color: #f1f1f1;
+    border: 4px solid #3e4684;
+    background-color: #dde5f4;
     border-radius: 8px;
     padding: 10px;
     display: flex;
@@ -81,147 +111,42 @@ button.delete {
 }
 
 /* Azioni aggiunta timer */
-.actions {
-    margin: 10px 0;
-    padding: 8px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
-}
-
-.cancelNewTimer,
-.saveNewTimer {
-    padding: 10px 14px;
-    font-size: 0.9rem;
+.timePart {
+    color: #3e4684;
     border: none;
-    border-radius: 999px;
-    color: white;
-    cursor: pointer;
-}
-
-.cancelNewTimer {
-    background-color: #dc3545;
-}
-
-.saveNewTimer {
-    background-color: #28a745;
-}
-
-/* Bottone + */
-#addTimerBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    padding: 8px 16px;
-    font-size: 1.5rem;
-    width: fit-content;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-}
-
-button.startStop,
-button.reset,
-button.delete {
-    color: white;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-}
-
-button.startStop {
-    background-color: #28a745;
-}
-
-button.reset {
-    background-color: #ff9800;
-}
-
-button.delete {
-    background-color: #dc3545;
-}
-
-/* Contenitore dei timer */
-.timerContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 20px;
-}
-
-.timer {
-    background-color: white;
-    padding: 16px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    width: 300px;
-    max-width: 300px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.timer p {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    padding: 20px 30px;
-    border: 5px solid #ddd;
+    padding: 5px 10px;
+    font-size: 1.2rem;
     border-radius: 8px;
-    background-color: #f1f1f1;
-    width: auto;
     text-align: center;
+    width: 70px;
 }
 
-.timer button {
-    margin-top: 5px;
-    padding: 6px 12px;
-    font-size: 0.9rem;
+.timePart::placeholder {
+    color: #3e4684;;
+    opacity: 1;
 }
 
-/* Input tempo */
-.time-inputs {
-    border: 4px solid #ddd;
-    background-color: #f1f1f1;
-    border-radius: 8px;
-    padding: 10px;
+.actions {
     display: flex;
+    gap: 30px;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    width: auto;
-}
-
-.time-inputs span {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/* Azioni aggiunta timer */
-.actions {
-    margin: 10px 0;
-    padding: 8px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
+    margin-top: 10px;
 }
 
 .cancelNewTimer,
 .saveNewTimer {
-    padding: 10px 14px;
-    font-size: 0.9rem;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
     border: none;
     border-radius: 999px;
-    color: white;
     cursor: pointer;
 }
 
@@ -242,64 +167,149 @@ button.delete {
     padding: 8px 16px;
     font-size: 1.5rem;
     width: fit-content;
-    background-color: #28a745;
+    background-color: #3e4684;
     color: white;
     border: none;
     border-radius: 999px;
     cursor: pointer;
 }
+
+button#createGroup {
+    background-color: #3e4684;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Effetti */
+.timer-buttons button:active,
+#addTimerBtn:active,
+.cancelNewTimer:active,
+.saveNewTimer:active,
+button#createGroup:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.timer-buttons button:hover, 
+#addTimerBtn:hover,
+.cancelNewTimer:hover,
+.saveNewTimer:hover,
+button#createGroup:hover {
+    transform: scale(1.05);
+}
+
+
 
 /* ---------- Responsive CSS ---------- */
 
-/* Smartphone */
-@media (max-width: 600px) {
-    .timerContainer {
-        flex-direction: column;
-        align-items: center;
+/* Tablet e piccoli laptop */
+@media (max-width: 768px) {
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
     }
-
+  
     .timer {
-        width: 100%;
-        max-width: 90%;
+      width: 90%;
+      padding: 12px;
     }
-
-    .time-inputs {
-        flex-direction: row;
-        gap: 8px;
-    }
-
+  
     .timer p {
-        font-size: 1.5rem;
-        padding: 15px 20px;
+      font-size: 1.5rem;
+      padding: 20px 30px;
     }
-
-    .timer button {
-        width: 100%;
-    }
-
+  
+    .timer-buttons,
     .actions {
-        max-width: 90%;
+      gap: 20px;
     }
-
+  
+    .time-inputs {
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    .timePart {
+      width: 60px;
+      font-size: 1rem;
+    }
+  
+    #addTimerBtn {
+      font-size: 1.2rem;
+      padding: 8px 12px;
+    }
+  
+    button#createGroup {
+      padding: 10px 16px;
+      font-size: 0.95rem;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+  
+    hr {
+      margin: 30px 20px;
+      margin-top: -10px;
+    }
+  
+    .timer {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .timer p {
+      font-size: 1.2rem;
+      padding: 16px 20px;
+    }
+  
+    .timer-buttons button,
+    .cancelNewTimer,
+    .saveNewTimer,
     .cancelNewTimer,
     .saveNewTimer {
-        width: 100%;
-        font-size: 1rem;
+      width: 45px;
+      height: 45px;
+      font-size: 0.8rem;
     }
-}
-
-/* Tablet */
-@media (min-width: 601px) and (max-width: 1024px) {
-    .timer {
-        max-width: 45%;
-    }
-
+  
     .time-inputs {
-        flex-wrap: wrap;
+      flex-direction: row;
+      align-items: stretch;
+      width: 100%;
+    }
+  
+    .timePart {
+      width: 100%;
+      font-size: 0.8rem;
+    }
+  
+    .actions {
+      gap: 15px;
+      flex-direction: row;
+    }
+  
+    #addTimerBtn {
+      font-size: 1.2rem;
+      padding: 6px 10px;
+    }
+  
+    button#createGroup {
+      font-size: 0.9rem;
+      padding: 10px;
     }
 
-    .timer button {
-        font-size: 1rem;
-    }
-}
-
+    
+  }

@@ -1,122 +1,154 @@
-body {
-    font-family: Arial, sans-serif;
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: "Poppins", sans-serif;
     margin: 0;
-    background-color: #f9f9f9;
-}
-
-header, footer {
-    background-color: #317EFB;
+    background-color: #f1f7fe;
+  }
+  
+  header,
+  footer {
+    background-color: #3e4684;
     color: white;
     text-align: center;
     padding: 1rem;
     width: 100%;
-}
-
-main {
+  }
+  
+  main {
     padding: 20px 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-}
-
-#timer {
+  }
+  
+  #timer,
+  #group,
+  #navBotton {
+    margin: auto;
     width: 100%;
-    padding: 1rem;
-}
-
-#group {
-    width: 100%;
-    padding: 1rem;
-}
-
-/* Stili generali per l'interfaccia */
-label,
-input,
-button {
+    padding: 20px 1rem;
+    border-radius: 10px;
+  }
+  
+  #timer,
+  #group {
+    background-color: #dde5f4;
+  }
+  
+  #navBotton {
+    background-color: #f1f7fe;
+  }
+  
+  /* Stili generali per l'interfaccia */
+  label,
+  input,
+  button {
     margin: 10px 0;
-}
-
-input,
-button {
+  }
+  
+  label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #3e4684;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  input,
+  button {
     padding: 8px;
     font-size: 1rem;
     width: 100%;
     max-width: 300px;
-    box-sizing: border-box;
-}
-
-/* Bottoni di navigazione Timer e Gruppi */
-.navTimerGroup {
+  }
+  
+  input {
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #f1f7fe;
+    border: 2px solid #3e4684;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Bottoni di navigazione Timer e Gruppi */
+  .navTimerGroup {
     display: flex;
-    padding: 5px 10px;
-    gap: 10px;
-    width: auto;
-    height: 50px;
     flex-wrap: wrap;
-}
-
-.nav-button {
-    flex: 1;
+    gap: 1rem;
+    justify-content: center;
+    padding: 5px 10px;
+    width: 100%;
+  }
+  
+  .nav-button {
+    flex: 1 1 120px;
     text-align: center;
-    padding: 15px 0;
+    padding: 0.8em;
     font-size: 1rem;
     font-weight: bold;
     color: white;
     text-decoration: none;
     border: none;
     border-radius: 999px;
-    background-color: #334056;
+    background-color: #3e4684;
     transition: background-color 0.3s ease;
-}
-
-.nav-button.active {
+  }
+  
+  .nav-button.active {
     background-color: #a0a0a0;
     pointer-events: none;
     cursor: default;
     opacity: 0.6;
-}
+  }
+  
+  .nav-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-button:hover {
+    transform: scale(1.02);
+  }
+  
 
-/* ---------- Responsive CSS ---------- */
-
-/* Smartphone: fino a 600px */
-@media (max-width: 600px) {
+  /* ---------- Responsive CSS ---------- */
+  
+  /* Tablet e piccoli desktop */
+  @media (max-width: 768px) {
     main {
-        padding: 0.5rem;
+      padding: 1rem;
     }
-
-    .card {
-        padding: 0.75rem;
+  
+    .navTimerGroup {
+      flex-direction: row;
+      align-items: center;
     }
-
+  
+    .nav-button {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 480px) {
     input,
     button {
-        font-size: 0.9rem;
+      font-size: 0.95rem;
+      padding: 10px;
     }
-
-    .navTimerGroup {
-        flex-direction: row;
-        height: auto;
-        margin: 10px 0;
+  
+    label {
+      font-size: 0.95rem;
     }
-
+  
     .nav-button {
-        width: 100%;
-        padding: 10px;
+      font-size: 0.95rem;
     }
-}
-
-/* Tablet: da 601px a 1024px */
-@media (min-width: 601px) and (max-width: 1024px) {
-    .card {
-        max-width: 90%;
-    }
-
-    .navTimerGroup {
-        flex-wrap: wrap;
-    }
-
-    .nav-button {
-        flex: 1 1 45%;
-    }
-}
+  }
+  

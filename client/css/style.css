@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    padding: 20px;
     margin: 0;
     background-color: #f9f9f9;
 }
@@ -10,22 +9,25 @@ header, footer {
     color: white;
     text-align: center;
     padding: 1rem;
+    width: 100%;
 }
 
 main {
-    padding: 1rem;
+    padding: 20px 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
 }
 
-.card {
-    background: white;
-    border-radius: 10px;
+#timer {
     width: 100%;
     padding: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#group {
+    width: 100%;
+    padding: 1rem;
 }
 
 /* Stili generali per l'interfaccia */
@@ -46,11 +48,8 @@ button {
 
 /* Bottoni di navigazione Timer e Gruppi */
 .navTimerGroup {
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
-    margin: 20px;
+    padding: 5px 10px;
     gap: 10px;
     width: auto;
     height: 50px;

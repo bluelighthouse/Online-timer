@@ -16,10 +16,8 @@
     </header>
 
     <main>
-      <section class="card">
-        <label for="userId">Select user Id</label>
-        <input type="text" name="userId" id="userId" />
-        <button id="submitUserId">Submit user Id</button>
+      <section id="timer">
+        
 
         <div class="timerContainer">
         <!--  <div class="timer">
@@ -35,16 +33,24 @@
 
         <button id="addTimerBtn">+</button>
 
+      </section>
+       
+      <section id="group"> 
         <label for="groupId">Submit group id</label>
         <input type="number" name="groupId" id="groupId" />
         <button id="submitGroupId">Join group</button>
+        
+        <label for="groupName">Group Name:</label>
+        <input type="text" name="groupName" id="groupName">
+        <button id="createGroup">Create Group</button>
+        
 
         <div class="navTimerGroup">
           <a href="index.html" class="nav-button active">Timer</a>
           <a href="group.html" class="nav-button">Gruppi</a>
-      </div>
-
+        </div>
       </section>
+      
     </main>
 
     <footer>

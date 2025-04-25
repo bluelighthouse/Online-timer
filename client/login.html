@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script type="module" src="client.js"></script>
+    <link rel="stylesheet" href="css/styleLogin.css" />
 </head>
 <body>
-    <div id="loginContainer">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-        <br>
-        <button id="loginButton">Login</button>
-    </div>
+    <section class="container">
+        <div class="login-container">
+            <div class="circle circle-one"></div>
+            <div class="form-container">
+                <img src="timer.png" alt="illustration" class="illustration" />
+                <h1 class="opacity">LOGIN</h1>
+                <form>
+                    <input type="text" placeholder="USERNAME" id="username" />
+                    <input type="password" placeholder="PASSWORD" id="password" />
+                    <button class="opacity" id="loginButton">SUBMIT</button>
+                </form>
+                <div class="register-forget opacity">
+                    <a href="#">REGISTER</a>
+                    <a href="#">FORGOT PASSWORD</a>
+                </div>
+            </div>
+            <div class="circle circle-two"></div>
+        </div>
+        <div class="theme-btn-container"></div> <!-- Contenitore per i pulsanti del tema -->
+    </section>
 </body>
 </html>
+</html>
+
+

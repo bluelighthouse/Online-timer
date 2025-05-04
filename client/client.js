@@ -24,7 +24,7 @@ if (loginButton) {
 
     socket.on("loginError", (errorMessage) => {
         console.error("Errore di login: ", errorMessage);
-        alert(errorMessage);
+        showMessage(errorMessage, "error");
     });
 }
 
@@ -159,7 +159,7 @@ if (submitGroupId && timerContainer) {
                 socket.emit("addTimer", userId, totalMilliseconds);
                 newTimer.remove();
             } else {
-                alert("Inserisci un tempo valido.");
+                showMessage("Inserisci un tempo valido.", "error");
             }
         });
 
@@ -169,26 +169,160 @@ if (submitGroupId && timerContainer) {
     });
 }
 
-// --- GROUP MANAGEMENT ---
-const createGroupButton = document.querySelector("#createGroup");
+// Verifica se siamo nella pagina group.html
+if (window.location.pathname.endsWith("group.html")) {
+    const createGroupButton = document.querySelector("#createGroup");
+    const groupNameInput = document.querySelector("#groupName");
+    const userListContainer = document.querySelector("#userListContainer");
+    const notificationsContainer = document.querySelector("#notificationsContainer");
 
-if (createGroupButton) {
+    let selectedUserIds = new Set();
+
+    // Richiedi la lista degli utenti al server
+    if (userId) {
+        socket.emit("getUsers", userId);
+        socket.emit("getNotifications", userId);
+    }
+
+    // Ricevi la lista degli utenti dal server
+    socket.on("usersList", (users) => {
+        userListContainer.innerHTML = "<h3>Lista utenti:</h3>";
+        users.forEach(user => {
+            const userElement = document.createElement("div");
+            userElement.classList.add("userItem");
+
+            // Aggiungi un checkbox accanto al nome dell'utente
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.classList.add("styled-checkbox"); // Marcello
+            checkbox.dataset.userId = user.id;
+
+            // Gestisci la selezione/deselezione tramite checkbox
+            checkbox.addEventListener("change", (event) => {
+                const userId = event.target.dataset.userId;
+                if (event.target.checked) {
+                    selectedUserIds.add(userId);
+                } else {
+                    selectedUserIds.delete(userId);
+                }
+            });
+
+            userElement.appendChild(checkbox);
+            userElement.appendChild(document.createTextNode(` ${user.name} (ID: ${user.id})`));
+            userListContainer.appendChild(userElement);
+        });
+    });
+
+    socket.on("usersError", (errorMessage) => {
+        console.error("Errore:", errorMessage);
+        showMessage(errorMessage, "error");
+    });
+
+    // Crea un gruppo e invia gli inviti
     createGroupButton.addEventListener("click", () => {
-        const groupName = document.querySelector("#groupName").value;
+        const groupName = groupNameInput.value;
 
-        if (groupName.trim() === "") {
-            alert("Group name cannot be empty.");
+        if (!groupName || selectedUserIds.size === 0) {
+            showMessage("Inserisci un nome per il gruppo e seleziona almeno un utente.", "error");
             return;
         }
 
-        socket.emit("createGroup", groupName, userId);
+        socket.emit("createGroup", groupName, userId, Array.from(selectedUserIds));
     });
 
     socket.on("groupCreated", (groupId, groupName, timerId) => {
-        alert(`Group "${groupName}" created successfully with ID: ${groupId} and Timer ID: ${timerId}`);
+        showMessage(`Gruppo "${groupName}" creato con successo!`, "success");
     });
 
     socket.on("groupCreationError", (errorMessage) => {
-        alert(`Error creating group: ${errorMessage}`);
+        showMessage(errorMessage, "error");
     });
+
+    // Ricevi notifiche di invito
+    socket.on(`groupInvite_${userId}`, ({ groupId, groupName, senderId }) => {
+        const accept = confirm(`Sei stato invitato al gruppo "${groupName}" da userId ${senderId}. Accetti?`);
+        if (accept) {
+            socket.emit("acceptGroupInvite", groupId, userId);
+        } else {
+            socket.emit("declineGroupInvite", groupId, userId);
+        }
+    });
+
+    socket.on("acceptInviteSuccess", (message) => {
+        showMessage(message, "success");
+    });
+
+    socket.on("acceptInviteError", (errorMessage) => {
+        showMessage(errorMessage, "error");
+    });
+
+    socket.on("declineInviteSuccess", (message) => {
+        showMessage(message, "success");
+    });
+
+    socket.on("declineInviteError", (errorMessage) => {
+        showMessage(errorMessage, "error");
+    });
+
+    // Ricevi e visualizza le notifiche
+    socket.on("notificationsList", (notifications) => {
+        notificationsContainer.innerHTML = "<h3>Notifiche:</h3>";
+        notifications.forEach(notification => {
+            const notificationElement = document.createElement("div");
+            notificationElement.classList.add("notificationItem");
+
+            notificationElement.innerHTML = `
+                <div class="notificationCard">
+                  <p> Sei stato invitato al gruppo: <strong>${notification.group_name}</strong> </p>
+                  <div class="notificationActions">
+                    <button class="acceptNotification" data-notification-id="${notification.id}">Accetta</button>
+                    <button class="declineNotification" data-notification-id="${notification.id}">Rifiuta</button>
+                  </div>
+                </div>
+            `;
+
+            notificationsContainer.appendChild(notificationElement);
+        });
+
+        // Aggiungi event listener ai pulsanti
+        document.querySelectorAll(".acceptNotification").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const notificationId = event.target.dataset.notificationId;
+                socket.emit("acceptNotification", notificationId, userId);
+            });
+        });
+
+        document.querySelectorAll(".declineNotification").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const notificationId = event.target.dataset.notificationId;
+                socket.emit("declineNotification", notificationId, userId);
+            });
+        });
+    });
+
+    socket.on("notificationsError", (errorMessage) => {
+        console.error("Errore:", errorMessage);
+        showMessage(errorMessage, "error");
+    });
+
+    socket.on("notificationActionSuccess", (message) => {
+        showMessage(message, "success");
+        // Ricarica le notifiche dopo l'azione
+        socket.emit("getNotifications", userId);
+    });
+
+    socket.on("notificationActionError", (errorMessage) => {
+        showMessage(errorMessage, "error");
+    });
+
 }
+    function showMessage(message, type = "success", duration = 3000) {
+        const box = document.getElementById("messageBox");
+        box.textContent = message;
+        box.className = `message-box ${type}`;
+        box.classList.remove("hidden");
+    
+        setTimeout(() => {
+            box.classList.add("hidden");
+        }, duration);
+    }

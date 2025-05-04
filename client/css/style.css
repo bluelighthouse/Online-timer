@@ -2,6 +2,33 @@
     box-sizing: border-box;
   }
   
+  h2 {
+    color: #3e4684;
+    font-weight: 700;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+hr {
+    border: none;
+    height: 1.2px;
+    background-color: #3e4684;
+    margin: 30px;
+    margin-top: -20px;
+}
+
+.title-container { 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+}
+
   body {
     font-family: "Poppins", sans-serif;
     margin: 0;
@@ -25,21 +52,19 @@
     gap: 1rem;
   }
   
-  #timer,
-  #group,
-  #navBotton {
+  #section-1,
+  #sectionNavBotton {
     margin: auto;
     width: 100%;
     padding: 20px 1rem;
     border-radius: 10px;
   }
   
-  #timer,
-  #group {
+  #section-1 {
     background-color: #dde5f4;
   }
   
-  #navBotton {
+  #sectionNavBotton {
     background-color: #f1f7fe;
   }
   
@@ -55,7 +80,7 @@
     font-weight: bold;
     color: #3e4684;
     margin-bottom: 8px;
-    display: block;
+    display: flex;
   }
   
   input,
@@ -67,59 +92,94 @@
   }
   
   input {
-    padding: 10px;
-    margin-top: 5px;
+    padding: 8px;
     background-color: #f1f7fe;
     border: 2px solid #3e4684;
+    color: #3e4684;
     border-radius: 8px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
   
-  /* Bottoni di navigazione Timer e Gruppi */
-  .navTimerGroup {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    padding: 5px 10px;
-    width: 100%;
-  }
-  
-  .nav-button {
-    flex: 1 1 120px;
-    text-align: center;
-    padding: 0.8em;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 999px;
-    background-color: #3e4684;
-    transition: background-color 0.3s ease;
-  }
-  
-  .nav-button.active {
-    background-color: #a0a0a0;
-    pointer-events: none;
-    cursor: default;
-    opacity: 0.6;
-  }
-  
-  .nav-button:active {
-    transform: scale(0.95);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .nav-button:hover {
-    transform: scale(1.02);
-  }
-  
+/* Bottoni di navigazione Timer e Gruppi */
+.navTimerGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.navTimerGroup button {
+  flex: 1 1 120px;
+  text-align: center;
+  padding: 0.8em;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #3e4684;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navTimerGroup button:hover {
+  transform: scale(1.02);
+}
+
+.navTimerGroup button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.navTimerGroup button.active {
+  background-color: #a0a0a0;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Messaggi */
+.message-box {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.message-box.hidden {
+  display: none;
+}
+
+.message-box.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.message-box.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
 
   /* ---------- Responsive CSS ---------- */
   
   /* Tablet e piccoli desktop */
   @media (max-width: 768px) {
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
     main {
       padding: 1rem;
     }
@@ -137,6 +197,16 @@
   
   /* Mobile */
   @media (max-width: 480px) {
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+  
+    hr {
+      margin: 30px 20px;
+      margin-top: -10px;
+    }
+
     input,
     button {
       font-size: 0.95rem;

@@ -4,27 +4,60 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#317EFB" />
-        <title>Gruppi</title>
+        <title>Group</title>
+        <script type="module" src="client.js"></script>
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" href="css/styleGroup.css" />
       </head>
 
       <body>
         <header>
-          <h1>Welcome to TimeSpot</h1>
-        </header>
+          <div class="title-container">
+              <img src="timer.png" alt="Logo" class="logo">
+              <h1>TimeSpot</h1>
+            </div>
+      </header>
+
+      <div id="messageBox" class="message-box hidden"></div>
+
 
         <main>
-            <section class="card">
-              
-      
-              <div class="navTimerGroup">
-                <a href="index.html" class="nav-button">Timer</a>
-                <a href="group.html" class="nav-button active">Gruppi</a>
+          <section id="section-1">
+            <h2>Group Management</h2>
+            <hr>      
+
+            <!-- Creazione gruppo -->
+            <div id="createGroupContainer">
+                <label for="groupName">Nome del Gruppo:</label>
+                <input type="text" id="groupName" name="groupName" placeholder="Enter group name">   
             </div>
-      
-            </section>
-          </main>
+
+            <!-- Lista utenti -->
+            <div id="userListContainer">
+                <!-- Gli utenti saranno aggiunti dinamicamente qui -->
+            </div>
+
+           
+                <div class="button-wrapper">
+                  <button id="createGroup">Crea Gruppo</button>
+                </div>
+          </section>
+            
+          <section id="section-1">
+            <!-- Notifiche -->
+            <div id="notificationsContainer">
+                <h3>Notifiche:</h3>
+                <!-- Le notifiche saranno aggiunte dinamicamente qui -->
+            </div>
+         </section>
+   
+         <section id="sectionNavBotton"> 
+          <div class="navTimerGroup">
+            <button id="homepage">Timer</button>
+            <button id="manageGroups">Gruppi</button>
+          </div>
+        </section>
+        </main>
 
 
 <footer>
@@ -32,3 +65,26 @@
   </footer>
 </body>
 </html>
+
+
+<script>
+  const userId = new URLSearchParams(window.location.search).get("userId");
+
+  // Navigazione
+  document.querySelector("#homepage").addEventListener("click", () => {
+    window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  document.querySelector("#manageGroups").addEventListener("click", () => {
+    window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  // Evidenzia bottone attivo
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage.includes("index.html")) {
+    document.querySelector("#homepage").classList.add("active");
+  } else if (currentPage.includes("group.html")) {
+    document.querySelector("#manageGroups").classList.add("active");
+  }
+</script>

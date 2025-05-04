@@ -126,6 +126,37 @@ svg {
   margin: auto;
 }
 
+/* Messaggi */
+.message-box {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.message-box.hidden {
+  display: none;
+}
+
+.message-box.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.message-box.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
 /* --- RESPONSIVE: fino a 480px --- */
 @media (max-width: 480px) {
   .screen-1 {

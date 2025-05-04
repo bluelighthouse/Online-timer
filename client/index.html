@@ -11,12 +11,18 @@
   </head>
 
   <body>
+
     <header>
-      <h1>Welcome back to TimeSpot</h1>
-    </header>
+      <div class="title-container">
+          <img src="timer.png" alt="Logo" class="logo">
+          <h1>TimeSpot</h1>
+        </div>
+  </header>
+
+<div id="messageBox" class="message-box hidden"></div>
 
     <main>
-      <section id="timer">
+      <section id="section-1">
         <h2>Timer Management</h2>
         <hr>
         <div class="timerContainer">
@@ -34,24 +40,19 @@
         <button id="addTimerBtn">+</button>
 
       </section>
-       
-      <section id="group"> 
-         <label for="groupId">Submit group id</label>
-        <input type="number" name="groupId" id="groupId" />
-        <button id="submitGroupId">Join group</button>
-        
-        <label for="groupName">Group Name:</label>
-        <input type="text" name="groupName" id="groupName">
-        <button id="createGroup">Create Group</button>
-  
+
+      <section id="section-1"> 
+       <label for="groupId">Submit group id</label>
+       <input type="number" name="groupId" id="groupId" />
+       <button id="submitGroupId">Join group</button>
       </section>
 
-      <section id="navBotton" > 
-      <div class="navTimerGroup">
-          <a href="index.html" class="nav-button active">Timer</a>
-          <a href="group.html" class="nav-button">Gruppi</a>
-        </div>
-      </section>
+<section id="sectionNavBotton"> 
+  <div class="navTimerGroup">
+    <button id="homepage">Timer</button>
+    <button id="manageGroups">Gruppi</button>
+  </div>
+</section>
 
     </main>
 
@@ -60,3 +61,26 @@
     </footer>
   </body>
 </html>
+
+
+<script>
+  const userId = new URLSearchParams(window.location.search).get("userId");
+
+  // Navigazione
+  document.querySelector("#homepage").addEventListener("click", () => {
+    window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  document.querySelector("#manageGroups").addEventListener("click", () => {
+    window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  // Evidenzia bottone attivo
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage.includes("index.html")) {
+    document.querySelector("#homepage").classList.add("active");
+  } else if (currentPage.includes("group.html")) {
+    document.querySelector("#manageGroups").classList.add("active");
+  }
+</script>

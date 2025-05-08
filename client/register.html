@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script type="module" src="client.js"></script>
+    <link rel="stylesheet" href="css/styleLogin.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+  <body>
+    <div id="messageBox" class="message-box hidden"></div>
+
+    <div class="screen-1">
+      <div class="logo">
+        <img alt="timer" src="violetClock.png" />
+      </div>
+
+      <h1>Registrazione</h1>
+
+      <div class="email">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Inserisci username" />
+      </div>
+
+      <div class="password">
+        <label for="password">Password</label>
+        <div class="input-with-icon">
+          <input
+            type="password"
+            id="password"
+            placeholder="Inserisci password"
+          />
+          <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+        </div>
+      </div>
+
+      <button class="login" id="registerButton">Registrati</button>
+
+      <div class="footer">
+        <span onclick="window.location.href='login.html'"
+          >Hai già un account?</span
+        >
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const togglePassword = document.querySelector(".show-hide");
+        const passwordInput = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", () => {
+          const isPassword = passwordInput.type === "password";
+          passwordInput.type = isPassword ? "text" : "password";
+          togglePassword.setAttribute(
+            "name",
+            isPassword ? "eye-off-outline" : "eye-outline"
+          );
+        });
+      });
+    </script>
+  </body>
+</html>

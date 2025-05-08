@@ -6,7 +6,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   box-sizing: border-box;
 }
 
@@ -157,43 +157,4 @@ svg {
   border: 2px solid #f5c6cb;
 }
 
-/* --- RESPONSIVE: fino a 480px --- */
-@media (max-width: 480px) {
-  .screen-1 {
-    padding: 1.2em;
-    border-radius: 20px;
-    box-shadow: none;
-  }
-
-  h1 {
-    font-size: 1.5em;
-    margin-bottom: 0.5em;
-  }
-
-  .email,
-  .password {
-    font-size: 1em;
-    padding: 0.8em;
-  }
-
-  input {
-    font-size: 0.95em;
-  }
-
-  button.login {
-    font-size: 1em;
-    padding: 0.7em;
-  }
-
-  .footer {
-    flex-direction: row;
-    gap: 0.8em;
-    font-size: 0.9em;
-    justify-content: center;
-  }
-
-  .screen-1 .logo img {
-    width: 100px;
-    margin-top: 15px;
-  }
-}
+/* ---------- Responsive CSS ---------- */

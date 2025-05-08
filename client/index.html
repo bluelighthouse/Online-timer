@@ -11,49 +11,33 @@
   </head>
 
   <body>
-
     <header>
       <div class="title-container">
-          <img src="timer.png" alt="Logo" class="logo">
-          <h1>TimeSpot</h1>
-        </div>
-  </header>
+        <img src="timer.png" alt="Logo" class="logo" />
+        <h1>TimeSpot</h1>
+      </div>
+    </header>
 
-<div id="messageBox" class="message-box hidden"></div>
+    <div id="messageBox" class="message-box hidden"></div>
 
     <main>
       <section id="section-1">
         <h2>Timer Management</h2>
-        <hr>
-        <div class="timerContainer">
-        <!--  <div class="timer">
-            <p id="timer1">3600</p>
-            <button id="startStop1" class="startStop">Start</button>
-          </div>
+        <hr />
 
-          <div class="timer">
-            <p id="timer2">3600</p>
-            <button id="startStop2" class="startStop">Start</button>
-          </div> -->
+        <div class="timerContainer">
+          <!-- Timer elements will be dynamically added here -->
         </div>
 
         <button id="addTimerBtn">+</button>
-
       </section>
 
-      <section id="section-1"> 
-       <label for="groupId">Submit group id</label>
-       <input type="number" name="groupId" id="groupId" />
-       <button id="submitGroupId">Join group</button>
+      <section id="sectionNavBotton">
+        <div class="navTimerGroup">
+          <button id="homepage">Timer</button>
+          <button id="manageGroups">Gruppi</button>
+        </div>
       </section>
-
-<section id="sectionNavBotton"> 
-  <div class="navTimerGroup">
-    <button id="homepage">Timer</button>
-    <button id="manageGroups">Gruppi</button>
-  </div>
-</section>
-
     </main>
 
     <footer>
@@ -61,7 +45,6 @@
     </footer>
   </body>
 </html>
-
 
 <script>
   const userId = new URLSearchParams(window.location.search).get("userId");

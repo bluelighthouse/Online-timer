@@ -1,24 +1,32 @@
+/* Impostazioni di base */
 * {
-    box-sizing: border-box;
-  }
-  
-  h2 {
-    color: #3e4684;
-    font-weight: 700;
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 30px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background-color: #f1f7fe;
+}
+
+h2 {
+  color: #3e4684;
+  font-weight: 700;
+  font-size: 1.7rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 hr {
-    border: none;
-    height: 1.2px;
-    background-color: #3e4684;
-    margin: 30px;
-    margin-top: -20px;
+  border: none;
+  height: 0.1rem;
+  background-color: #3e4684;
+  margin: 2rem auto;
+  margin-top: -1.5rem;
+  width: 80%;
 }
 
-.title-container { 
+.title-container {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -29,77 +37,67 @@ hr {
   height: 80px;
 }
 
-  body {
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    background-color: #f1f7fe;
-  }
-  
-  header,
-  footer {
-    background-color: #3e4684;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    width: 100%;
-  }
-  
-  main {
-    padding: 20px 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  #section-1,
-  #sectionNavBotton {
-    margin: auto;
-    width: 100%;
-    padding: 20px 1rem;
-    border-radius: 10px;
-  }
-  
-  #section-1 {
-    background-color: #dde5f4;
-  }
-  
-  #sectionNavBotton {
-    background-color: #f1f7fe;
-  }
-  
-  /* Stili generali per l'interfaccia */
-  label,
-  input,
-  button {
-    margin: 10px 0;
-  }
-  
-  label {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #3e4684;
-    margin-bottom: 8px;
-    display: flex;
-  }
-  
-  input,
-  button {
-    padding: 8px;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  input {
-    padding: 8px;
-    background-color: #f1f7fe;
-    border: 2px solid #3e4684;
-    color: #3e4684;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-  }
-  
+header,
+footer {
+  background-color: #3e4684;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+main {
+  padding: 20px 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#section-1,
+#section-2,
+#sectionNavBotton {
+  margin: auto;
+  width: 100%;
+  padding: 20px 1rem;
+  border-radius: 10px;
+}
+
+#section-1,
+#section-2 {
+  background-color: #dde5f4;
+}
+
+#sectionNavBotton {
+  background-color: #f1f7fe;
+}
+
+/* Stili generali per l'interfaccia */
+label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #3e4684;
+  margin-bottom: 8px;
+  display: flex;
+}
+
+input,
+button {
+  padding: 8px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px 0;
+}
+
+input {
+  background-color: #f1f7fe;
+  border: 2px solid #3e4684;
+  color: #3e4684;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Bottoni di navigazione Timer e Gruppi */
 .navTimerGroup {
   display: flex;
@@ -121,7 +119,8 @@ hr {
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .navTimerGroup button:hover {
@@ -171,54 +170,38 @@ hr {
   border: 2px solid #f5c6cb;
 }
 
-  /* ---------- Responsive CSS ---------- */
-  
-  /* Tablet e piccoli desktop */
-  @media (max-width: 768px) {
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-    }
+/* Card visualizzata in caso di contenuto assente */
+.emptyCard {
+  width: 100%;
+  min-height: 140px;
+  background-color: #f1f7fe;
+  color: #3e4684;
+  border: 2px dashed #3e4684;
+  border-radius: 15px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  padding: 1em;
 
-    main {
-      padding: 1rem;
-    }
-  
-    .navTimerGroup {
-      flex-direction: row;
-      align-items: center;
-    }
-  
-    .nav-button {
-      width: 100%;
-      max-width: 300px;
-    }
-  }
-  
-  /* Mobile */
-  @media (max-width: 480px) {
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-    }
-  
-    hr {
-      margin: 30px 20px;
-      margin-top: -10px;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    input,
-    button {
-      font-size: 0.95rem;
-      padding: 10px;
-    }
-  
-    label {
-      font-size: 0.95rem;
-    }
-  
-    .nav-button {
-      font-size: 0.95rem;
-    }
-  }
-  
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.emptyCard h3 {
+  margin: 0 0 0.5em;
+  font-size: 1.2em;
+}
+
+.emptyCard p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.emptyCard:hover {
+  transform: translateY(-4px);
+}
+
+/* ---------- Responsive CSS ---------- */

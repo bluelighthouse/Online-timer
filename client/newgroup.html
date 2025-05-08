@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#317EFB" />
-    <title>Group</title>
+    <title>Nuovo Gruppo</title>
     <script type="module" src="client.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/styleGroup.css" />
@@ -22,32 +22,34 @@
 
     <main>
       <section id="section-1">
-        <h2>Notifiche</h2>
+        <h2>Crea un Nuovo Gruppo</h2>
         <hr />
-        <!-- Notifiche -->
-        <div id="notificationsContainer">
-          <!-- Le notifiche saranno aggiunte dinamicamente qui -->
-        </div>
-      </section>
+        <!-- Creazione gruppo-->
+        <div class="groupSetupWrapper">
+          <div id="createGroupContainer">
+            <label for="groupName">Nome del Gruppo:</label>
+            <input
+              type="text"
+              id="groupName"
+              name="groupName"
+              placeholder="Inserisci nome gruppo"
+            />
+          </div>
 
-      <section id="section-2">
-        <h2>I tuoi gruppi</h2>
-        <hr />
-        <!-- Lista dei gruppi -->
-        <div id="userGroupsContainer">
-          <!-- I gruppi saranno aggiunti dinamicamente qui -->
-        </div>
-
-        <!-- Pulsante per accedere alla pagina di creazione gruppo -->
-        <div class="navNewgroup">
-          <button id="createNewGroup">Crea Nuovo Gruppo</button>
+          <div id="userListContainer">
+            <h3>Seleziona utenti da aggiungere:</h3>
+            <!-- Popolato dinamicamente -->
+          </div>
+          <div class="button-wrapper">
+            <button id="createGroup">Crea Gruppo</button>
+          </div>
         </div>
       </section>
 
       <section id="sectionNavBotton">
         <div class="navTimerGroup">
           <button id="homepage">Timer</button>
-          <button id="manageGroups">Gruppi</button>
+          <button id="backToGroups">Gruppi</button>
         </div>
       </section>
     </main>
@@ -66,20 +68,7 @@
     window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
   });
 
-  document.querySelector("#manageGroups").addEventListener("click", () => {
+  document.querySelector("#backToGroups").addEventListener("click", () => {
     window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
   });
-
-  document.querySelector("#createNewGroup").addEventListener("click", () => {
-    window.location.href = `newgroup.html?userId=${encodeURIComponent(userId)}`;
-  });
-
-  // Evidenzia bottone attivo
-  const currentPage = window.location.pathname.split("/").pop();
-
-  if (currentPage.includes("index.html")) {
-    document.querySelector("#homepage").classList.add("active");
-  } else if (currentPage.includes("group.html")) {
-    document.querySelector("#manageGroups").classList.add("active");
-  }
 </script>

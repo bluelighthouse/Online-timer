@@ -1,6 +1,6 @@
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
-const socket = io("http://localhost:3000", {
+const socket = io("http://192.168.1.69:3000", {
     transports: ["websocket"]
 });
 

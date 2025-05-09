@@ -21,7 +21,6 @@ var connection = mysql.createConnection({
 });
 
 // Collect
-
 async function getUserTimers(connection,userId){
     timers = [];
     // insert statment
@@ -46,8 +45,9 @@ async function getUserTimers(connection,userId){
 
 /* Struttura JSON-like:
     userid=>{
-        timerIds = [ ]
-        intervals = [ ]
+        startValue = {}
+        currentValue = {}
+        intervals = {}
     }
 */
 let userTimers = {};
@@ -60,6 +60,7 @@ io.on("connection", socket => {
             try{
                 await connection.connect();
                 let timers = await getUserTimers(connection, userId);
+
                 if(userTimers[userId] === undefined){
                     userTimers[userId] = { 
                         startValue: {},
@@ -167,6 +168,8 @@ io.on("connection", socket => {
     socket.on("enterGroup", (groupId, userId) =>{
         // Needs the check for the user belonging to the group.
 
+        
+        // Prendi timer
         let sql = "SELECT groups.*, timers.* FROM timer.groups INNER JOIN timer.timers ON groups.fk_timer = timers.id WHERE groups.id = ?";
         connection.query(sql, [groupId, userId], (err, results)=>{
             if(err) console.log(err);

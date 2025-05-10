@@ -100,7 +100,7 @@ io.on("connection", (socket) => {
 
       // Inserimento dell'utente senza specificare l'ID
       const insertUserSql =
-        "INSERT INTO timer.users (name, password) VALUES (?, SHA2(?, 256));)";
+        "INSERT INTO timer.users (name, password) VALUES (?, SHA2(?, 256))";
       connection.query(
         insertUserSql,
         [username, password],

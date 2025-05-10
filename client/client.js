@@ -73,8 +73,26 @@ if (userId) {
 if (window.location.pathname.endsWith("index.html")) {
   // Verifica se gli elementi di index.html esistono prima di aggiungere gli event listener
   const timerContainer = document.querySelector(".timerContainer");
-
   let clientTimerIds = new Set();
+
+  function updateEmptyMessage() {
+    const emptyMessage = document.querySelector(".emptyCard");
+    const timers = timerContainer.querySelectorAll(".timer");
+
+    if (timers.length === 0) {
+      if (!emptyMessage) {
+        const message = document.createElement("div");
+        message.classList.add("emptyCard");
+        message.innerHTML = `
+          <h3>Nessun Timer trovato</h3>
+          <p>Aggiungi un nuovo Timer per iniziare!</p>
+        `;
+        timerContainer.appendChild(message);
+      }
+    } else {
+      if (emptyMessage) emptyMessage.remove();
+    }
+  }
 
   timerContainer.addEventListener("click", (event) => {
     let timerId = Number(event.target.id.replace(/^\D+/g, ""));
@@ -97,99 +115,102 @@ if (window.location.pathname.endsWith("index.html")) {
   });
 
   socket.on("initializeTimers", (timers) => {
-    // Marcello
-    if (timers.length === 0) {
-      timerContainer.innerHTML = `
-            <div class="emptyCard">
-              <h3>Nessun Timer trovato</h3>
-              <p>Aggiungi un nuovo Timer per iniziare!</p>
-            </div>
-            `;
-    }
+    timerContainer.innerHTML = "";
+    clientTimerIds.clear(); // Marcello
 
     timers.forEach((timer) => {
       if (!clientTimerIds.has(timer.id)) {
         clientTimerIds.add(timer.id);
         const formattedTime = formatTime(timer.value); // Marcello
-        let htmlContent = `<p id='timer${timer.id}'>${formattedTime}</p>
-                <div class="timer-buttons">
-                <button id='startStop${timer.id}' class='startStop'>Start  Stop</button>
-                <button id='reset${timer.id}' class='reset'>Reset</button>
-                <button id='delete${timer.id}' class='delete'>Delete</button>
-                </div> `;
-        const newTimer = document.createElement("div");
-        newTimer.classList.add("timer");
-        newTimer.innerHTML = htmlContent;
-        timerContainer.appendChild(newTimer);
+        const htmlContent = `
+          <div class="timer">
+            <p id='timer${timer.id}'>${formattedTime}</p>
+            <div class="timer-buttons">
+              <button id='startStop${timer.id}' class='startStop'>Start  Stop</button>
+              <button id='reset${timer.id}' class='reset'>Reset</button>
+              <button id='delete${timer.id}' class='delete'>Delete</button>
+            </div>
+          </div>
+        `;
+        timerContainer.insertAdjacentHTML("beforeend", htmlContent);
       }
     });
+
+    updateEmptyMessage();
   });
 
   socket.on("addClientTimer", (serverUserId, timerId, timerValue) => {
     if (userId == serverUserId && !clientTimerIds.has(timerId)) {
       clientTimerIds.add(timerId);
-      const formattedTime = formatTime(timerValue); // Marcello
-      let htmlContent = `<p id='timer${timerId}'class='timer-text'>${formattedTime}</p>
-            <div class="timer-buttons">
+      const formattedTime = formatTime(timerValue);
+      const htmlContent = `
+        <div class="timer">
+          <p id='timer${timerId}' class='timer-text'>${formattedTime}</p>
+          <div class="timer-buttons">
             <button id='startStop${timerId}' class='startStop'>Start  Stop</button>
             <button id='reset${timerId}' class='reset'>Reset</button>
             <button id='delete${timerId}' class='delete'>Delete</button>
-            </div> `;
-      const newTimer = document.createElement("div");
-      newTimer.classList.add("timer");
-      newTimer.innerHTML = htmlContent;
-      timerContainer.appendChild(newTimer);
+          </div>
+        </div>
+      `;
+      timerContainer.insertAdjacentHTML("beforeend", htmlContent);
+      updateEmptyMessage();
     }
   });
 
   socket.on("deleteClientTimer", (timerId) => {
     const timerElement = document.querySelector(`.timer:has(#timer${timerId})`);
     if (timerElement) {
-      timerContainer.removeChild(timerElement);
+      timerElement.remove();
       clientTimerIds.delete(timerId);
     }
+    updateEmptyMessage();
   });
 
-  // NUOVO: Aggiunta Timer Manuale con input - Marcello
   document.querySelector("#addTimerBtn")?.addEventListener("click", () => {
     const newTimer = document.createElement("div");
     newTimer.classList.add("timer");
 
     newTimer.innerHTML = `
-            <div class="time-inputs">
-                <input type="number" class="timePart" id="inputHours" min="0" max="99" placeholder="hh">
-                <span>:</span>
-                <input type="number" class="timePart" id="inputMinutes" min="0" max="59" placeholder="mm">
-                <span>:</span>
-                <input type="number" class="timePart" id="inputSeconds" min="0" max="59" placeholder="ss">
-                <span>:</span>
-                <input type="number" class="timePart" id="inputMilliseconds" min="0" max="9999" placeholder="ms">
-            </div>
-            <div class="actions">
-                <button class="saveNewTimer">Save timer</button>
-                <button class="cancelNewTimer">Delete</button>
-            </div>
-        `;
+      <div class="time-inputs">
+        <input type="number" class="timePart" id="inputHours" min="0" max="99" placeholder="hh">
+        <span>:</span>
+        <input type="number" class="timePart" id="inputMinutes" min="0" max="59" placeholder="mm">
+        <span>:</span>
+        <input type="number" class="timePart" id="inputSeconds" min="0" max="59" placeholder="ss">
+        <span>:</span>
+        <input type="number" class="timePart" id="inputMilliseconds" min="0" max="9999" placeholder="cs">
+      </div>
+      <div class="actions">
+        <button class="saveNewTimer">Save timer</button>
+        <button class="cancelNewTimer">Delete</button>
+      </div>
+    `;
+
     timerContainer.appendChild(newTimer);
+    updateEmptyMessage();
 
     newTimer.querySelector(".saveNewTimer").addEventListener("click", () => {
       const h = parseInt(newTimer.querySelector("#inputHours").value) || 0;
       const m = parseInt(newTimer.querySelector("#inputMinutes").value) || 0;
       const s = parseInt(newTimer.querySelector("#inputSeconds").value) || 0;
-      const ms =
+      const cs =
         parseInt(newTimer.querySelector("#inputMilliseconds").value) || 0;
+      const totalCentesimi = h * 360000 + m * 6000 + s * 100 + cs;
 
-      const totalMilliseconds = h * 3600000 + m * 60000 + s * 1000 + ms;
-      if (totalMilliseconds > 0) {
-        socket.emit("addTimer", userId, totalMilliseconds);
+      if (totalCentesimi > 0) {
+        socket.emit("addTimer", userId, totalCentesimi);
         newTimer.remove();
       } else {
         showMessage("Inserisci un tempo valido.", "error");
       }
+
+      updateEmptyMessage();
     });
 
     newTimer.querySelector(".cancelNewTimer").addEventListener("click", () => {
       newTimer.remove();
+      updateEmptyMessage();
     });
   });
 }
@@ -293,6 +314,7 @@ if (window.location.pathname.endsWith("group.html")) {
     showMessage(message, "success");
     // Ricarica le notifiche dopo l'azione
     socket.emit("getNotifications", userId);
+    socket.emit("getUserGroups", userId); // Marcello
   });
 
   socket.on("notificationActionError", (errorMessage) => {
@@ -301,30 +323,40 @@ if (window.location.pathname.endsWith("group.html")) {
 
   // Ricevi la lista dei gruppi dal server
   socket.on("userGroupsList", (groups) => {
+    const userGroupsContainer = document.getElementById("userGroupsContainer");
+    const searchInput = document.getElementById("searchGroupInput"); // Marcello
+
     userGroupsContainer.innerHTML = "";
+
     if (groups.length === 0) {
       // Marcello
       userGroupsContainer.innerHTML += `
-            <div class="emptyCard">
-              <h3> Nessun gruppo trovato</h3>
-              <p>
-                Crea un nuovo gruppo per iniziare!
-              </p>
-            </div>
-          `;
+        <div class="emptyCard">
+          <h3> Nessun gruppo trovato</h3>
+          <p>
+            Crea un nuovo gruppo per iniziare!
+          </p>
+        </div>
+      `;
+
+      // Nascondi la barra di ricerca
+      searchInput.style.display = "none";
     } else {
+      // Mostra la barra di ricerca
+      searchInput.style.display = "block";
+
       groups.forEach((group) => {
         const groupElement = document.createElement("div");
         groupElement.classList.add("groupItem");
         // Marcello
         groupElement.innerHTML = `
-                  <div class="groupTile">
-                    <h3>${group.name}</h3> 
-                  <button class="enterGroup" data-group-id="${group.id}">
-                    Entra
-                  </button>
-                </div>
-              `;
+          <div class="groupTile">
+            <h3>${group.name}</h3>
+            <button class="enterGroup" data-group-id="${group.id}">
+              Entra
+            </button>
+          </div>
+        `;
         userGroupsContainer.appendChild(groupElement);
       });
 
@@ -540,18 +572,18 @@ if (window.location.pathname.endsWith("timer.html")) {
 }
 
 // Marcello
-function formatTime(milliseconds) {
-  let hours = Math.floor(milliseconds / 3600000);
-  let minutes = Math.floor((milliseconds % 3600000) / 60000);
-  let seconds = Math.floor((milliseconds % 60000) / 1000);
-  let ms = milliseconds % 1000;
+function formatTime(centiseconds) {
+  let hours = Math.floor(centiseconds / 360000);
+  let minutes = Math.floor((centiseconds % 360000) / 6000);
+  let seconds = Math.floor((centiseconds % 6000) / 100);
+  let cs = centiseconds % 100;
 
   hours = hours < 10 ? "0" + hours : hours;
   minutes = minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
-  ms = ms.toString().padStart(4, "0");
+  cs = cs.toString().padStart(2, "0"); // pad to 2 digits (centesimi)
 
-  return `${hours}:${minutes}:${seconds}:${ms}`;
+  return `${hours}:${minutes}:${seconds}:${cs}`;
 }
 
 // Marcello
@@ -565,3 +597,37 @@ function showMessage(message, type = "success", duration = 5000) {
     box.classList.add("hidden");
   }, duration);
 }
+
+// Funzione per cercare gli utenti
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchUserInput");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    const userElements = document.querySelectorAll(
+      "#userListContainer .userItem"
+    );
+
+    userElements.forEach((user) => {
+      const username = user.textContent.toLowerCase();
+      user.style.display = username.includes(query) ? "block" : "none";
+    });
+  });
+});
+
+// Funzione per cercare i  gruppi
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.getElementById("searchGroupInput");
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    const groupElements = document.querySelectorAll(
+      "#userGroupsContainer .groupItem"
+    );
+
+    groupElements.forEach((group) => {
+      const groupName = group.textContent.toLowerCase();
+      group.style.display = groupName.includes(query) ? "block" : "none";
+    });
+  });
+});

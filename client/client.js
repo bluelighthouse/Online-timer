@@ -68,7 +68,6 @@ const userId = urlParams.get("userId");
 if (userId) {
   socket.emit("sendUserId", userId);
 }
-
 // --- TIMER MANAGEMENT ---
 if (window.location.pathname.endsWith("index.html")) {
   // Verifica se gli elementi di index.html esistono prima di aggiungere gli event listener
@@ -271,6 +270,7 @@ if (window.location.pathname.endsWith("group.html")) {
 
   // Ricevi e visualizza le notifiche
   socket.on("notificationsList", (notifications) => {
+    console.log(notifications);
     notificationsContainer.innerHTML = "";
     if (notifications.length === 0) {
       notificationsContainer.innerHTML = `
@@ -355,8 +355,9 @@ if (window.location.pathname.endsWith("group.html")) {
     } else {
       // Mostra la barra di ricerca
       searchInput.style.display = "block";
-
       groups.forEach((group) => {
+        if(group.user_id !== undefined){
+
         const groupElement = document.createElement("div");
         groupElement.classList.add("groupItem");
         // Marcello
@@ -366,9 +367,10 @@ if (window.location.pathname.endsWith("group.html")) {
                   <button class="enterGroup" data-group-id="${group.id}">
                     Entra
                   </button>
-                  ${parseInt(group.user_id) === parseInt(userId) ? "<button class='deleteGroup'data-group-id="+ group.id + ">Elimina</button>": ""}
-                </div>`;
+                  ${parseInt(group.user_id) === parseInt(userId) ? "<button class='deleteGroup' data-group-id="+ group.id + ">Elimina</button>": ""}
+                  </div>`;
         userGroupsContainer.appendChild(groupElement);
+        }
       });
 
       // Aggiungi event listener ai pulsanti "Entra"
@@ -408,77 +410,171 @@ if (window.location.pathname.endsWith("group.html")) {
 
 }
 
+// Verifica se siamo nella pagina group.html
+// if (window.location.pathname.endsWith("group.html")) {
+//     const notificationsContainer = document.querySelector("#notificationsContainer");
+//     const userGroupsContainer = document.querySelector("#userGroupsContainer");
+
+//     let selectedUserIds = new Set();
+
+//     // Richiedi la lista degli utenti al server
+//     if (userId) {
+//         socket.emit("getNotifications", userId);
+//         socket.emit("getUserGroups", userId);
+//     }
+
+//     // Ricevi notifiche di invito
+//     socket.on(`groupInvite_${userId}`, ({ groupId, groupName, senderId }) => {
+//         const accept = confirm(`Sei stato invitato al gruppo "${groupName}" da userId ${senderId}. Accetti?`);
+//         if (accept) {
+//             socket.emit("acceptGroupInvite", groupId, userId);
+//         } else {
+//             socket.emit("declineGroupInvite", groupId, userId);
+//         }
+//     });
+
+//     socket.on("acceptInviteSuccess", (message) => {
+//         alert(message);
+//     });
+
+//     socket.on("acceptInviteError", (errorMessage) => {
+//         alert(errorMessage);
+//     });
+
+//     socket.on("declineInviteSuccess", (message) => {
+//         alert(message);
+//     });
+
+//     socket.on("declineInviteError", (errorMessage) => {
+//         alert(errorMessage);
+//     });
+
+//     // Ricevi e visualizza le notifiche
+//     socket.on("notificationsList", (notifications) => {
+//         notificationsContainer.innerHTML = "";
+//         notifications.forEach(notification => {
+//             const notificationElement = document.createElement("div");
+//             notificationElement.classList.add("notificationItem");
+
+//             notificationElement.innerHTML = `
+//                 <p>Sei stato invitato al gruppo: <strong>${notification.group_name}</strong>
+//                 <button class="acceptNotification" data-notification-id="${notification.id}">Accetta</button>
+//                 <button class="declineNotification" data-notification-id="${notification.id}">Rifiuta</button></p>
+//             `;
+
+//             notificationsContainer.appendChild(notificationElement);
+//         });
+
+//         // Aggiungi event listener ai pulsanti
+//         document.querySelectorAll(".acceptNotification").forEach(button => {
+//             button.addEventListener("click", (event) => {
+//                 const notificationId = event.target.dataset.notificationId;
+//                 socket.emit("acceptNotification", notificationId, userId);
+//             });
+//         });
+
+//         document.querySelectorAll(".declineNotification").forEach(button => {
+//             button.addEventListener("click", (event) => {
+//                 const notificationId = event.target.dataset.notificationId;
+//                 socket.emit("declineNotification", notificationId, userId);
+//             });
+//         });
+//     });
+
+//     socket.on("notificationsError", (errorMessage) => {
+//         console.error("Errore:", errorMessage);
+//         alert(errorMessage);
+//     });
+
+//     socket.on("notificationActionSuccess", (message) => {
+//         alert(message);
+//         // Ricarica le notifiche dopo l'azione
+//         socket.emit("getNotifications", userId);
+//     });
+
+//     socket.on("notificationActionError", (errorMessage) => {
+//         alert(errorMessage);
+//     });
+
+//     // Ricevi la lista dei gruppi dal server
+
+//     socket.on("userGroupsError", (errorMessage) => {
+//         console.error("Errore:", errorMessage);
+//         alert(errorMessage);
+//     });
+// }
+
 // Verifica se siamo nella pagina newgroup.html
 if (window.location.pathname.endsWith("newgroup.html")) {
-  const createGroupButton = document.querySelector("#createGroup");
-  const groupNameInput = document.querySelector("#groupName");
-  const userListContainer = document.querySelector("#userListContainer");
+    const createGroupButton = document.querySelector("#createGroup");
+    const userListContainer = document.querySelector("#userListContainer");
 
-  let selectedUserIds = new Set();
+    let selectedUserIds = new Set();
 
-  // Richiedi la lista degli utenti al server
-  if (userId) {
-    socket.emit("getUsers", userId);
-  }
-
-  // Ricevi la lista degli utenti dal server
-  socket.on("usersList", (users) => {
-    userListContainer.innerHTML = "<h3>Seleziona utenti da aggiungere:</h3>"; // Marcello
-    users.forEach((user) => {
-      const userElement = document.createElement("div");
-      userElement.classList.add("userItem");
-
-      // Aggiungi un checkbox accanto al nome dell'utente
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.classList.add("styled-checkbox"); // Marcello
-      checkbox.dataset.userId = user.id;
-
-      // Gestisci la selezione/deselezione tramite checkbox
-      checkbox.addEventListener("change", (event) => {
-        const userId = event.target.dataset.userId;
-        if (event.target.checked) {
-          selectedUserIds.add(userId);
-        } else {
-          selectedUserIds.delete(userId);
-        }
-      });
-
-      userElement.appendChild(checkbox);
-      userElement.appendChild(
-        document.createTextNode(` ${user.name} (ID: ${user.id})`)
-      );
-      userListContainer.appendChild(userElement);
-    });
-  });
-
-  socket.on("usersError", (errorMessage) => {
-    console.error("Errore:", errorMessage);
-    showMessage(errorMessage, "error");
-  });
-
-  // Crea un gruppo e invia gli inviti
-  createGroupButton.addEventListener("click", () => {
-    const groupName = groupNameInput.value;
-
-    if (!groupName || selectedUserIds.size === 0) {
-      showMessage(
-        "Inserisci un nome per il gruppo e seleziona almeno un utente.",
-        "error"
-      );
-      return;
+    // Richiedi la lista degli utenti al server
+    if (userId) {
+        socket.emit("getUsers", userId);
     }
 
-    socket.emit("createGroup", groupName, userId, Array.from(selectedUserIds));
-  });
+    // Ricevi la lista degli utenti dal server
+    socket.on("usersList", (users) => {
+        userListContainer.innerHTML = "<h3>Lista utenti:</h3>";
+        users.forEach(user => {
+            const userElement = document.createElement("div");
+            userElement.classList.add("userItem");
 
-  socket.on("groupCreated", (groupId, groupName, timerId) => {
-    showMessage(`Gruppo "${groupName}" creato con successo!`, "success");
-  });
+            // Aggiungi un checkbox accanto al nome dell'utente
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.dataset.userId = user.id;
 
-  socket.on("groupCreationError", (errorMessage) => {
-    showMessage(errorMessage, "error");
-  });
+            // Gestisci la selezione/deselezione tramite checkbox
+            checkbox.addEventListener("change", (event) => {
+                const userId = event.target.dataset.userId;
+                if (event.target.checked) {
+                    selectedUserIds.add(userId);
+                } else {
+                    selectedUserIds.delete(userId);
+                }
+            });
+
+            userElement.appendChild(checkbox);
+            userElement.appendChild(document.createTextNode(` ${user.name} (ID: ${user.id})`));
+            userListContainer.appendChild(userElement);
+        });
+    });
+
+    socket.on("usersError", (errorMessage) => {
+        console.error("Errore:", errorMessage);
+        alert(errorMessage);
+    });
+
+    // Crea un gruppo e invia gli inviti
+    createGroupButton.addEventListener("click", () => {
+      const groupName = document.querySelector("#groupName").value;
+      const h = parseInt(document.querySelector("#inputHours").value) || 0;
+      const m = parseInt(document.querySelector("#inputMinutes").value) || 0;
+      const s = parseInt(document.querySelector("#inputSeconds").value) || 0;
+      const cs =
+        parseInt(document.querySelector("#inputMilliseconds").value) || 0;
+      const groupTimerValue = h * 3600000 + m * 60000 + s * 1000 + cs;
+
+        if (!groupName || selectedUserIds.size === 0 || isNaN(groupTimerValue) || groupTimerValue <= 0) {
+            alert("Inserisci un nome per il gruppo, un valore valido per il timer e seleziona almeno un utente.");
+            return;
+        }
+
+        socket.emit("createGroup", groupName, userId, Array.from(selectedUserIds), groupTimerValue);
+    });
+
+    socket.on("groupCreated", (groupId, groupName, timerId) => {
+        alert(`Gruppo "${groupName}" creato con successo!`);
+    });
+
+    socket.on("groupCreationError", (errorMessage) => {
+        alert(errorMessage);
+    });
+
 }
 
 // Verifica se siamo nella pagina timer.html
@@ -494,7 +590,6 @@ if (window.location.pathname.endsWith("timer.html")) {
   }
 
   socket.on("initializeTimers", ({ groupName, timers }) => {
-    console.log(groupName);
     // Marcello
     const titleElement = document.getElementById("groupTitle");
     if (titleElement) {
@@ -573,6 +668,7 @@ if (window.location.pathname.endsWith("timer.html")) {
       notificationsContainer.innerHTML = "";
 
       notifications.forEach((notification) => {
+        console.log(notification.user_id);
         const notificationElement = document.createElement("div");
         notificationElement.classList.add("notificationItem");
         notificationElement.id = `user${notification.user_id}`;
@@ -603,6 +699,7 @@ if (window.location.pathname.endsWith("timer.html")) {
   });
 
   socket.on("userAccept", (serverGroupId, serverUserId)=>{
+    console.log(serverUserId);
     if(parseInt(groupId) === serverGroupId){
         const acceptUser = document.querySelector(`#user${serverUserId}> p > i`);
         acceptUser.ariaLabel = "accepted";

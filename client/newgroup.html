@@ -8,6 +8,7 @@
     <script type="module" src="client.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/styleGroup.css" />
+    <link rel="stylesheet" href="css/styleTimer.css" />
   </head>
 
   <body>
@@ -43,6 +44,17 @@
               name="groupName"
               placeholder="Inserisci nome gruppo"
             />
+            <label for="timerinput">Inserisci valore del timer</label>
+            <div class="time-inputs">
+                <input type="number" class="timePart" id="inputHours" min="0" max="99" placeholder="hh">
+                <span>:</span>
+                <input type="number" class="timePart" id="inputMinutes" min="0" max="59" placeholder="mm">
+                <span>:</span>
+                <input type="number" class="timePart" id="inputSeconds" min="0" max="59" placeholder="ss">
+                <span>:</span>
+                <input type="number" class="timePart" id="inputMilliseconds" min="0" max="9999" placeholder="cs">
+              </div>
+
           </div>
 
           <div id="userListContainer">
@@ -81,3 +93,5 @@
     window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
   });
 </script>
+
+

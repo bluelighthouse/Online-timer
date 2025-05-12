@@ -106,17 +106,21 @@ if (window.location.pathname.endsWith("index.html")) {
             </div>
             `;
     }
-
     timers.forEach((timer) => {
       if (!clientTimerIds.has(timer.id)) {
         clientTimerIds.add(timer.id);
+        
         const formattedTime = formatTime(timer.value); // Marcello
         let htmlContent = `<p id='timer${timer.id}'>${formattedTime}</p>
-                <div class="timer-buttons">
-                <button id='startStop${timer.id}' class='startStop'>Start  Stop</button>
+                <div class="timer-buttons">`
+        if(parseInt(timer.user_id) === parseInt(userId)){
+                htmlContent = htmlContent + `<button id='startStop${timer.id}' class='startStop'>Start  Stop</button>
                 <button id='reset${timer.id}' class='reset'>Reset</button>
                 <button id='delete${timer.id}' class='delete'>Delete</button>
                 </div> `;
+        }else{
+            htmlContent = htmlContent + "<div>Non hai il permesso di modificare questo timer.</div>"
+        }
         const newTimer = document.createElement("div");
         newTimer.classList.add("timer");
         newTimer.innerHTML = htmlContent;
@@ -323,8 +327,8 @@ if (window.location.pathname.endsWith("group.html")) {
                   <button class="enterGroup" data-group-id="${group.id}">
                     Entra
                   </button>
-                </div>
-              `;
+                  ${parseInt(group.user_id) === parseInt(userId) ? "<button class='deleteGroup'data-group-id="+ group.id + ">Elimina</button>": ""}
+                </div>`;
         userGroupsContainer.appendChild(groupElement);
       });
 
@@ -340,6 +344,14 @@ if (window.location.pathname.endsWith("group.html")) {
           )}&groupId=${encodeURIComponent(groupId)}`;
         });
       });
+
+      // Aggiungi event listener ai pulsanti "Elimina"
+      document.querySelectorAll(".deleteGroup").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          const groupId = event.target.dataset.groupId;
+          socket.emit("deleteGroup", groupId);
+        });
+      });
     }
   });
 
@@ -347,6 +359,14 @@ if (window.location.pathname.endsWith("group.html")) {
     console.error("Errore:", errorMessage);
     showMessage(errorMessage, "error");
   });
+
+  socket.on("deleteClientGroup", groupId=>{
+    const groupItem = document.querySelector(`.groupItem:has(button[data-group-id="${groupId}"])`);
+    const groupContainer = document.querySelector(".userGroupsContainer");
+    if(groupItem !== null)
+        groupItem.parentNode.removeChild(groupItem);
+  });
+
 }
 
 // Verifica se siamo nella pagina newgroup.html
@@ -435,6 +455,7 @@ if (window.location.pathname.endsWith("timer.html")) {
   }
 
   socket.on("initializeTimers", ({ groupName, timers }) => {
+    console.log(groupName);
     // Marcello
     const titleElement = document.getElementById("groupTitle");
     if (titleElement) {
@@ -454,13 +475,16 @@ if (window.location.pathname.endsWith("timer.html")) {
       const timerElement = document.createElement("div");
       timerElement.classList.add("timer");
       const formattedTime = formatTime(timer.value);
-      timerElement.innerHTML = `
-            <p id='timer${timer.id}'>${formattedTime}</p>
-            <div class="timer-buttons">
-                <button id='startStop${timer.id}' class='startStop'>Start Stop</button>
-                <button id='reset${timer.id}' class='reset'>Reset</button>
-            </div>
-        `;
+      timerElement.innerHTML = `<p id='timer${timer.id}'>${formattedTime}</p>`
+        if(parseInt(timer.user_id) === parseInt(userId)){
+            timerElement.innerHTML = timerElement.innerHTML +`<div class="timer-buttons">
+            <button id='startStop${timer.id}' class='startStop'>Start Stop</button>
+            <button id='reset${timer.id}' class='reset'>Reset</button>
+            </div></div> `;
+        }else{
+            timerElement.innerHTML = timerElement.innerHTML + "<div>Non hai il permesso di modificare questo timer.</div>";
+        }
+
       timerGroupContainer.appendChild(timerElement);
     }
   });
@@ -512,6 +536,7 @@ if (window.location.pathname.endsWith("timer.html")) {
       notifications.forEach((notification) => {
         const notificationElement = document.createElement("div");
         notificationElement.classList.add("notificationItem");
+        notificationElement.id = `user${notification.user_id}`;
 
         let iconClass = "";
         let statusClass = "";
@@ -537,30 +562,41 @@ if (window.location.pathname.endsWith("timer.html")) {
       });
     }
   });
+
+  socket.on("userAccept", (serverGroupId, serverUserId)=>{
+    if(parseInt(groupId) === serverGroupId){
+        const acceptUser = document.querySelector(`#user${serverUserId}> p > i`);
+        acceptUser.ariaLabel = "accepted";
+        acceptUser.classList.remove("sent");
+        acceptUser.classList.add("accepted");
+        acceptUser.classList.remove("fa-solid","fa-hourglass-half");
+        acceptUser.classList.add("fa-solid","fa-check-circle");
+    }    
+  });
+
 }
 
 // Marcello
 function formatTime(milliseconds) {
-  let hours = Math.floor(milliseconds / 3600000);
-  let minutes = Math.floor((milliseconds % 3600000) / 60000);
-  let seconds = Math.floor((milliseconds % 60000) / 1000);
-  let ms = milliseconds % 1000;
-
-  hours = hours < 10 ? "0" + hours : hours;
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  seconds = seconds < 10 ? "0" + seconds : seconds;
-  ms = ms.toString().padStart(4, "0");
-
-  return `${hours}:${minutes}:${seconds}:${ms}`;
-}
+    let hours = Math.floor(milliseconds / 3600000);
+    let minutes = Math.floor((milliseconds % 3600000) / 60000);
+    let seconds = Math.floor((milliseconds % 60000) / 1000);
+    let ms = milliseconds % 1000;
+  
+    hours = hours.toString().padStart(2, "0");
+    minutes = minutes.toString().padStart(2, "0");
+    seconds = seconds.toString().padStart(2, "0");
+    ms = ms.toString().padStart(3, "0"); // max 3 cifre per i millisecondi
+  
+    return `${hours}:${minutes}:${seconds}.${ms}`; // punto invece dei due punti
+  }
 
 // Marcello
 function showMessage(message, type = "success", duration = 5000) {
-  const box = document.getElementById("messageBox");
+    const box = document.getElementById("messageBox");
   box.textContent = message;
   box.className = `message-box ${type}`;
   box.classList.remove("hidden");
-
   setTimeout(() => {
     box.classList.add("hidden");
   }, duration);

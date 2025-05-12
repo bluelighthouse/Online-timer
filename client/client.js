@@ -207,10 +207,10 @@ if (window.location.pathname.endsWith("index.html")) {
       const s = parseInt(newTimer.querySelector("#inputSeconds").value) || 0;
       const cs =
         parseInt(newTimer.querySelector("#inputMilliseconds").value) || 0;
-      const totalCentesimi = h * 360000 + m * 6000 + s * 100 + cs;
+      const totalMilliseconds = h * 3600000 + m * 60000 + s * 1000 + cs;
 
-      if (totalCentesimi > 0) {
-        socket.emit("addTimer", userId, totalCentesimi);
+      if (totalMilliseconds > 0) {
+        socket.emit("addTimer", userId, totalMilliseconds);
         newTimer.remove();
       } else {
         showMessage("Inserisci un tempo valido.", "error");

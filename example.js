@@ -780,66 +780,66 @@ const io = require("socket.io")(3000, {
         });
     });
 
-    socket.on("getUsers", (currentUserId) => {
-        const sql = "SELECT id, name FROM timer.users WHERE id != ?";
-        connection.query(sql, [currentUserId], (err, results) => {
-            if (err) {
-                console.error("Errore durante il recupero degli utenti:", err.message);
-                socket.emit("usersError", "Errore durante il recupero degli utenti.");
-                return;
-            }
+    // socket.on("getUsers", (currentUserId) => {
+    //     const sql = "SELECT id, name FROM timer.users WHERE id != ?";
+    //     connection.query(sql, [currentUserId], (err, results) => {
+    //         if (err) {
+    //             console.error("Errore durante il recupero degli utenti:", err.message);
+    //             socket.emit("usersError", "Errore durante il recupero degli utenti.");
+    //             return;
+    //         }
 
-            socket.emit("usersList", results); // Invia la lista degli utenti al client
-        });
-    });
+    //         socket.emit("usersList", results); // Invia la lista degli utenti al client
+    //     });
+    // });
 
     // Gestisce l'invio di inviti agli utenti
-    socket.on("sendGroupInvites", (groupId, senderId, invitedUserIds) => {
-        invitedUserIds.forEach((userId) => {
-            const sql = "INSERT INTO timer.notifications (fk_user, fk_group, status) VALUES (?, ?, 'sent')";
-            connection.query(sql, [userId, groupId], (err) => {
-                if (err) {
-                    console.error("Errore durante l'invio dell'invito:", err.message);
-                    socket.emit("inviteError", `Errore durante l'invio dell'invito a userId ${userId}`);
-                    return;
-                }
+    // socket.on("sendGroupInvites", (groupId, senderId, invitedUserIds) => {
+    //     invitedUserIds.forEach((userId) => {
+    //         const sql = "INSERT INTO timer.notifications (fk_user, fk_group, status) VALUES (?, ?, 'sent')";
+    //         connection.query(sql, [userId, groupId], (err) => {
+    //             if (err) {
+    //                 console.error("Errore durante l'invio dell'invito:", err.message);
+    //                 socket.emit("inviteError", `Errore durante l'invio dell'invito a userId ${userId}`);
+    //                 return;
+    //             }
 
-                // Notifica il destinatario dell'invito
-                io.emit(`groupInvite_${userId}`, { groupId, senderId });
-            });
-        });
+    //             // Notifica il destinatario dell'invito
+    //             io.emit(`groupInvite_${userId}`, { groupId, senderId });
+    //         });
+    //     });
 
-        socket.emit("inviteSuccess", "Inviti inviati con successo!");
-    });
+    //     socket.emit("inviteSuccess", "Inviti inviati con successo!");
+    // });
 
     // Gestisce l'accettazione dell'invito
-    socket.on("acceptGroupInvite", (groupId, userId) => {
-        const updateSql = "UPDATE timer.notifications SET status = 'accepted' WHERE fk_user = ? AND fk_group = ?";
-        connection.query(updateSql, [userId, groupId], (err) => {
-            if (err) {
-                console.error("Errore durante l'accettazione dell'invito:", err.message);
-                socket.emit("acceptInviteError", "Errore durante l'accettazione dell'invito.");
-                return;
-            }
+    // socket.on("acceptGroupInvite", (groupId, userId) => {
+    //     const updateSql = "UPDATE timer.notifications SET status = 'accepted' WHERE fk_user = ? AND fk_group = ?";
+    //     connection.query(updateSql, [userId, groupId], (err) => {
+    //         if (err) {
+    //             console.error("Errore durante l'accettazione dell'invito:", err.message);
+    //             socket.emit("acceptInviteError", "Errore durante l'accettazione dell'invito.");
+    //             return;
+    //         }
 
-            socket.emit("acceptInviteSuccess", "Invito accettato con successo!");
-            socket.emit("enterGroup", groupId, userId); // L'utente entra nel gruppo
-        });
-    });
+    //         socket.emit("acceptInviteSuccess", "Invito accettato con successo!");
+    //         socket.emit("enterGroup", groupId, userId); // L'utente entra nel gruppo
+    //     });
+    // });
 
     // Gestisce il rifiuto dell'invito
-    socket.on("declineGroupInvite", (groupId, userId) => {
-        const updateSql = "UPDATE timer.notifications SET status = 'declined' WHERE fk_user = ? AND fk_group = ?";
-        connection.query(updateSql, [userId, groupId], (err) => {
-            if (err) {
-                console.error("Errore durante il rifiuto dell'invito:", err.message);
-                socket.emit("declineInviteError", "Errore durante il rifiuto dell'invito.");
-                return;
-            }
+    // socket.on("declineGroupInvite", (groupId, userId) => {
+    //     const updateSql = "UPDATE timer.notifications SET status = 'declined' WHERE fk_user = ? AND fk_group = ?";
+    //     connection.query(updateSql, [userId, groupId], (err) => {
+    //         if (err) {
+    //             console.error("Errore durante il rifiuto dell'invito:", err.message);
+    //             socket.emit("declineInviteError", "Errore durante il rifiuto dell'invito.");
+    //             return;
+    //         }
 
-            socket.emit("declineInviteSuccess", "Invito rifiutato.");
-        });
-    });
+    //         socket.emit("declineInviteSuccess", "Invito rifiutato.");
+    //     });
+    // });
 
     // Recupera le notifiche per un utente
     // socket.on("getNotifications", (userId) => {
@@ -861,32 +861,32 @@ const io = require("socket.io")(3000, {
     // });
 
     // Gestisce l'accettazione di una notifica
-    socket.on("acceptNotification", (notificationId, userId) => {
-        const updateSql = "UPDATE timer.notifications SET status = 'accepted' WHERE id = ? AND fk_user = ?";
-        connection.query(updateSql, [notificationId, userId], (err) => {
-            if (err) {
-                console.error("Errore durante l'accettazione della notifica:", err.message);
-                socket.emit("notificationActionError", "Errore durante l'accettazione della notifica.");
-                return;
-            }
+    // socket.on("acceptNotification", (notificationId, userId) => {
+    //     const updateSql = "UPDATE timer.notifications SET status = 'accepted' WHERE id = ? AND fk_user = ?";
+    //     connection.query(updateSql, [notificationId, userId], (err) => {
+    //         if (err) {
+    //             console.error("Errore durante l'accettazione della notifica:", err.message);
+    //             socket.emit("notificationActionError", "Errore durante l'accettazione della notifica.");
+    //             return;
+    //         }
 
-            socket.emit("notificationActionSuccess", "Notifica accettata con successo.");
-        });
-    });
+    //         socket.emit("notificationActionSuccess", "Notifica accettata con successo.");
+    //     });
+    // });
 
     // Gestisce il rifiuto di una notifica
-    socket.on("declineNotification", (notificationId, userId) => {
-        const updateSql = "UPDATE timer.notifications SET status = 'declined' WHERE id = ? AND fk_user = ?";
-        connection.query(updateSql, [notificationId, userId], (err) => {
-            if (err) {
-                console.error("Errore durante il rifiuto della notifica:", err.message);
-                socket.emit("notificationActionError", "Errore durante il rifiuto della notifica.");
-                return;
-            }
+    // socket.on("declineNotification", (notificationId, userId) => {
+    //     const updateSql = "UPDATE timer.notifications SET status = 'declined' WHERE id = ? AND fk_user = ?";
+    //     connection.query(updateSql, [notificationId, userId], (err) => {
+    //         if (err) {
+    //             console.error("Errore durante il rifiuto della notifica:", err.message);
+    //             socket.emit("notificationActionError", "Errore durante il rifiuto della notifica.");
+    //             return;
+    //         }
 
-            socket.emit("notificationActionSuccess", "Notifica rifiutata con successo.");
-        });
-    });
+    //         socket.emit("notificationActionSuccess", "Notifica rifiutata con successo.");
+    //     });
+    // });
 
     // socket.on("getUserGroups", (userId) => {
     //     const sql = `

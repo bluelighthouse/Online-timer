@@ -8,3 +8,7 @@ It features:
 - Groups for sharing a timer between multiple users
 - Real-time sincronizzation across multiple devices
 
+### Credits
+- Taglio Lorenzo: backEnd implementation of private and group timers, backend implementation of group destruction and real-time notification responses
+- Massafra Daniele: backEnd implementation of login/signup, notification creation and update, group creation
+- 

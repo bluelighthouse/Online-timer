@@ -613,6 +613,16 @@ if (window.location.pathname.endsWith("timer.html")) {
     }    
   });
 
+  socket.on("userDecline", (serverGroupId, serverUserId)=>{
+    if(parseInt(groupId) === serverGroupId){
+      const deleteUser = document.querySelector(`#user${serverUserId}> p > i`);
+      deleteUser.ariaLabel = "declined";
+      deleteUser.classList.remove("sent");
+      deleteUser.classList.add("declined");
+      deleteUser.classList.remove("fa-solid","fa-hourglass-half");
+      deleteUser.classList.add("fa-solid","fa-times-circle");
+    }
+  })
 }
 
 // Marcello

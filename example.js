@@ -658,7 +658,6 @@ const io = require("socket.io")(3000, {
               "notificationActionSuccess",
               "Notifica accettata con successo."
             );
-            console.log("accept");
             io.emit("userAccept", groupId, userId);
           });
         });
@@ -666,22 +665,31 @@ const io = require("socket.io")(3000, {
   
     // Gestisce il rifiuto di una notifica
     socket.on("declineNotification", (notificationId, userId) => {
-      const updateSql =
+      const selectSql =
+          "SELECT fk_group FROM timer.notifications WHERE id = ? AND fk_user = ?";
+      connection.query(selectSql, [notificationId, userId], (err,results)=>{
+        if(err) console.log(err);
+        console.log(results);
+        const groupId = results[0].fk_group;
+        const updateSql =
         "UPDATE timer.notifications SET status = 'declined' WHERE id = ? AND fk_user = ?";
-      connection.query(updateSql, [notificationId, userId], (err) => {
-        if (err) {
-          console.error("Errore durante il rifiuto della notifica:", err.message);
+        connection.query(updateSql, [notificationId, userId], (err) => {
+          if (err) {
+            console.error("Errore durante il rifiuto della notifica:", err.message);
+            socket.emit(
+              "notificationActionError",
+              "Errore durante il rifiuto della notifica."
+            );
+            return;
+          }
+        
           socket.emit(
-            "notificationActionError",
-            "Errore durante il rifiuto della notifica."
+            "notificationActionSuccess",
+            "Notifica rifiutata con successo."
           );
-          return;
-        }
-  
-        socket.emit(
-          "notificationActionSuccess",
-          "Notifica rifiutata con successo."
-        );
+
+          io.emit("userDecline", groupId, userId);
+        });
       });
     });
   

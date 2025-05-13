@@ -36,6 +36,32 @@ hr {
   height: 80px;
 }
 
+/* Logout */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3e4684;
+  color: white;
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+header a.logout-button {
+  background-color: white;
+  color: #3e4684;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header a.logout-button:hover {
+  background-color: #2e3565;
+  color: white;
+}
+
 header,
 footer {
   background-color: #3e4684;

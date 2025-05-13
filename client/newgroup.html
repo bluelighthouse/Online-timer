@@ -18,7 +18,7 @@
         <h1>TimeSpot</h1>
       </div>
       <div>
-        <a href="login.html">Logout</a>
+        <a href="login.html" class="logout-button">Logout</a>
       </div>
     </header>
 
@@ -86,7 +86,7 @@
 
   // Navigazione
   document.querySelector("#homepage").addEventListener("click", () => {
-    window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
+    window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
   });
 
   document.querySelector("#backToGroups").addEventListener("click", () => {

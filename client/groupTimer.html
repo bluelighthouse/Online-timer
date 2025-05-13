@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#317EFB" />
-    <title>Group</title>
+    <title>Timer Gruppo</title>
     <script type="module" src="client.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/styleGroup.css" />
+    <link rel="stylesheet" href="css/styleTimer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
 
   <body>
@@ -17,7 +22,7 @@
         <h1>TimeSpot</h1>
       </div>
       <div>
-        <a href="login.html" class="logout-button">Logout</a>
+        <a href="login.html">Logout</a>
       </div>
     </header>
 
@@ -25,37 +30,27 @@
 
     <main>
       <section id="section-1">
-        <h2>Notifiche</h2>
+        <h2 id="groupTitle">Dettagli Gruppo</h2>
         <hr />
-        <!-- Notifiche -->
-        <div id="notificationsContainer">
-          <!-- Le notifiche saranno aggiunte dinamicamente qui -->
+
+        <div class="timerGroupContainer">
+          <!-- Il timer sarà aggiunto dinamicamente qui -->
         </div>
       </section>
 
       <section id="section-2">
-        <h2>I tuoi gruppi</h2>
+        <h2>Utenti invitati</h2>
         <hr />
-        <input
-          type="text"
-          id="searchGroupInput"
-          placeholder="Cerca gruppo..."
-        />
-        <!-- Lista dei gruppi -->
-        <div id="userGroupsContainer">
-          <!-- I gruppi saranno aggiunti dinamicamente qui -->
-        </div>
-
-        <!-- Pulsante per accedere alla pagina di creazione gruppo -->
-        <div class="navNewgroup">
-          <button id="createNewGroup">Crea Nuovo Gruppo</button>
+        <!-- Contenitore per le notifiche -->
+        <div id="notificationsContainer">
+          <!-- Le notifiche saranno aggiunte dinamicamente qui -->
         </div>
       </section>
 
       <section id="sectionNavBotton">
         <div class="navTimerGroup">
           <button id="homepage">Timer</button>
-          <button id="manageGroups">Gruppi</button>
+          <button id="backToGroups">Gruppi</button>
         </div>
       </section>
     </main>
@@ -74,20 +69,7 @@
     window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
   });
 
-  document.querySelector("#manageGroups").addEventListener("click", () => {
+  document.querySelector("#backToGroups").addEventListener("click", () => {
     window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
   });
-
-  document.querySelector("#createNewGroup").addEventListener("click", () => {
-    window.location.href = `newgroup.html?userId=${encodeURIComponent(userId)}`;
-  });
-
-  // Evidenzia bottone attivo
-  const currentPage = window.location.pathname.split("/").pop();
-
-  if (currentPage.includes("timer.html")) {
-    document.querySelector("#homepage").classList.add("active");
-  } else if (currentPage.includes("group.html")) {
-    document.querySelector("#manageGroups").classList.add("active");
-  }
 </script>

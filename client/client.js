@@ -21,7 +21,7 @@ if (window.location.pathname.endsWith("login.html")) {
     socket.on("loginSuccess", (userData) => {
       console.log("Login effettuato con successo!", userData);
       const userId = userData.userId;
-      window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
+      window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
     });
 
     socket.on("loginError", (errorMessage) => {
@@ -69,8 +69,8 @@ if (userId) {
   socket.emit("sendUserId", userId);
 }
 // --- TIMER MANAGEMENT ---
-if (window.location.pathname.endsWith("index.html")) {
-  // Verifica se gli elementi di index.html esistono prima di aggiungere gli event listener
+if (window.location.pathname.endsWith("timer.html")) {
+  // Verifica se gli elementi di timer.html esistono prima di aggiungere gli event listener
   const timerContainer = document.querySelector(".timerContainer");
   let clientTimerIds = new Set();
 
@@ -114,15 +114,6 @@ if (window.location.pathname.endsWith("index.html")) {
   });
 
   socket.on("initializeTimers", (timers) => {
-    // Marcello
-    if (timers.length === 0) {
-      timerContainer.innerHTML = `
-            <div class="emptyCard">
-              <h3>Nessun Timer trovato</h3>
-              <p>Aggiungi un nuovo Timer per iniziare!</p>
-            </div>
-            `;
-    }
     timerContainer.innerHTML = "";
     clientTimerIds.clear(); // Marcello
 
@@ -380,7 +371,7 @@ if (window.location.pathname.endsWith("group.html")) {
           const userId = new URLSearchParams(window.location.search).get(
             "userId"
           );
-          window.location.href = `timer.html?userId=${encodeURIComponent(
+          window.location.href = `groupTimer.html?userId=${encodeURIComponent(
             userId
           )}&groupId=${encodeURIComponent(groupId)}`;
         });
@@ -518,13 +509,14 @@ if (window.location.pathname.endsWith("newgroup.html")) {
 
     // Ricevi la lista degli utenti dal server
     socket.on("usersList", (users) => {
-        userListContainer.innerHTML = "<h3>Lista utenti:</h3>";
+        userListContainer.innerHTML = "<h3>Seleziona utenti da aggiungere:</h3>";
         users.forEach(user => {
             const userElement = document.createElement("div");
             userElement.classList.add("userItem");
 
             // Aggiungi un checkbox accanto al nome dell'utente
             const checkbox = document.createElement("input");
+            checkbox.classList.add("styled-checkbox"); // Marcello
             checkbox.type = "checkbox";
             checkbox.dataset.userId = user.id;
 
@@ -546,7 +538,7 @@ if (window.location.pathname.endsWith("newgroup.html")) {
 
     socket.on("usersError", (errorMessage) => {
         console.error("Errore:", errorMessage);
-        alert(errorMessage);
+        showMessage(errorMessage, "error");
     });
 
     // Crea un gruppo e invia gli inviti
@@ -560,25 +552,27 @@ if (window.location.pathname.endsWith("newgroup.html")) {
       const groupTimerValue = h * 3600000 + m * 60000 + s * 1000 + cs;
 
         if (!groupName || selectedUserIds.size === 0 || isNaN(groupTimerValue) || groupTimerValue <= 0) {
-            alert("Inserisci un nome per il gruppo, un valore valido per il timer e seleziona almeno un utente.");
-            return;
+          showMessage(
+            "Inserisci un nome per il gruppo e seleziona almeno un utente.",
+            "error"
+          );return;
         }
 
         socket.emit("createGroup", groupName, userId, Array.from(selectedUserIds), groupTimerValue);
     });
 
     socket.on("groupCreated", (groupId, groupName, timerId) => {
-        alert(`Gruppo "${groupName}" creato con successo!`);
+      showMessage(`Gruppo "${groupName}" creato con successo!`, "success");
     });
 
     socket.on("groupCreationError", (errorMessage) => {
-        alert(errorMessage);
+      showMessage(errorMessage, "error");
     });
 
 }
 
 // Verifica se siamo nella pagina timer.html
-if (window.location.pathname.endsWith("timer.html")) {
+if (window.location.pathname.endsWith("groupTimer.html")) {
   const urlParams = new URLSearchParams(window.location.search);
   const groupId = urlParams.get("groupId");
   const userId = urlParams.get("userId");
@@ -616,7 +610,12 @@ if (window.location.pathname.endsWith("timer.html")) {
             <button id='reset${timer.id}' class='reset'>Reset</button>
             </div></div> `;
         }else{
-            timerElement.innerHTML = timerElement.innerHTML + "<div>Non hai il permesso di modificare questo timer.</div>";
+            // Marcello
+          timerElement.innerHTML += `
+          <div class="timer-buttons">
+            <button class='startStop no-permission'>Start Stop</button>
+            <button class='reset no-permission'>Reset</button>
+          </div>`;
         }
 
       timerGroupContainer.appendChild(timerElement);
@@ -624,11 +623,22 @@ if (window.location.pathname.endsWith("timer.html")) {
   });
 
   timerGroupContainer.addEventListener("click", (event) => {
-    const timerId = event.target.id.replace(/^\D+/g, "");
-    if (event.target.classList.contains("startStop")) {
+    const target = event.target;
+    // Marcello
+    // Blocca l'azione se il pulsante è "finto"
+    if (target.classList.contains("no-permission")) {
+      event.preventDefault();
+      showMessage("Non hai il permesso di usare questo timer.", "error");
+      return; // esce dalla funzione
+    }
+  
+    const timerId = target.id.replace(/^\D+/g, "");
+  
+    if (target.classList.contains("startStop")) {
       socket.emit("startStop", userId, timerId);
     }
-    if (event.target.classList.contains("reset")) {
+  
+    if (target.classList.contains("reset")) {
       socket.emit("resetTimer", userId, timerId);
     }
   });

@@ -4,17 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#317EFB" />
-    <title>Timer Gruppo</title>
+    <title>Timer</title>
     <script type="module" src="client.js"></script>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/styleGroup.css" />
     <link rel="stylesheet" href="css/styleTimer.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
   </head>
-
   <body>
     <header>
       <div class="title-container">
@@ -22,7 +16,7 @@
         <h1>TimeSpot</h1>
       </div>
       <div>
-        <a href="login.html">Logout</a>
+        <a href="login.html" class="logout-button">Logout</a>
       </div>
     </header>
 
@@ -30,27 +24,20 @@
 
     <main>
       <section id="section-1">
-        <h2 id="groupTitle">Dettagli Gruppo</h2>
+        <h2>Timer Management</h2>
         <hr />
 
-        <div class="timerGroupContainer">
-          <!-- Il timer sarà aggiunto dinamicamente qui -->
+        <div class="timerContainer">
+          <!-- Timer elements will be dynamically added here -->
         </div>
-      </section>
 
-      <section id="section-2">
-        <h2>Utenti invitati</h2>
-        <hr />
-        <!-- Contenitore per le notifiche -->
-        <div id="notificationsContainer">
-          <!-- Le notifiche saranno aggiunte dinamicamente qui -->
-        </div>
+        <button id="addTimerBtn">+</button>
       </section>
 
       <section id="sectionNavBotton">
         <div class="navTimerGroup">
           <button id="homepage">Timer</button>
-          <button id="backToGroups">Gruppi</button>
+          <button id="manageGroups">Gruppi</button>
         </div>
       </section>
     </main>
@@ -66,10 +53,20 @@
 
   // Navigazione
   document.querySelector("#homepage").addEventListener("click", () => {
-    window.location.href = `index.html?userId=${encodeURIComponent(userId)}`;
+    window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
   });
 
-  document.querySelector("#backToGroups").addEventListener("click", () => {
+  document.querySelector("#manageGroups").addEventListener("click", () => {
     window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
   });
+
+  // Evidenzia bottone attivo
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage.includes("timer.html")) {
+    document.querySelector("#homepage").classList.add("active");
+  } else if (currentPage.includes("group.html")) {
+    document.querySelector("#manageGroups").classList.add("active");
+  }
 </script>
+

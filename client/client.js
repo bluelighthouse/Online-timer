@@ -1,6 +1,6 @@
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
-const socket = io("https://online-timer.onrender.com", {
+const socket = io("online-timer-backend-production.up.railway.app", {
   transports: ["websocket"],
 });
 

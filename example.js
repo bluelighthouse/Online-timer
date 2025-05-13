@@ -57,12 +57,7 @@ app.listen(PORT, () => {
 
 
 // Open the socket connection
-const io = require("socket.io")(3000, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
-    },
-  });
+const io = require("socket.io")(server);
   
   // connect to DB
   require("dotenv").config();

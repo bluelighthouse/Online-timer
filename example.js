@@ -36,6 +36,26 @@ function startStop(socket, userId, timerId) {
     }, 1);
   }
 
+// express
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// Serve i file statici dalla cartella "client"
+app.use(express.static(path.join(__dirname, 'client')));
+
+// Ritorna index.html per la root "/"
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'index.html'));
+});
+
+// Avvio del server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server in ascolto su http://localhost:${PORT}`);
+});
+
+
 // Open the socket connection
 const io = require("socket.io")(3000, {
     cors: {

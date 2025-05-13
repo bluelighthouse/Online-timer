@@ -63,6 +63,11 @@ const io = new Server(server, {
   }
 });
 
+const PORT = process.env.PORT || 5500;
+server.listen(PORT, () => {
+  console.log(`Server in ascolto su http://localhost:${PORT}`);
+});
+
   // connect to DB
   require("dotenv").config();
   const urlDB = `mysql://root:${process.env.MYSQLPASSWORD}@mysql.railway.internal:3306/railway`

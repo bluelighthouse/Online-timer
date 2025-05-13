@@ -46,7 +46,7 @@ const io = require("socket.io")(3000, {
   
   // connect to DB
   require("dotenv").config();
-  const urlDB = `mysql://root:${process.env.DB_PASSWORD}@mysql.railway.internal:3306/railway`
+  const urlDB = `mysql://root:${process.env.MYSQLPASSWORD}@mysql.railway.internal:3306/railway`
   let mysql = require("mysql2");
   var connection = mysql.createConnection(urlDB);
   

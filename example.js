@@ -39,6 +39,9 @@ function startStop(socket, userId, timerId) {
 // express
 const express = require('express');
 const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
+
 const app = express();
 
 // Serve i file statici dalla cartella "client"
@@ -49,17 +52,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
-// Avvio del server
-const PORT = 5500;
-app.listen(PORT, () => {
-  console.log(`Server in ascolto su http://localhost:${PORT}`);
+// Crea un unico server
+const server = http.createServer(app);
+
+// Inizializza Socket.IO sul server creato
+const io = new Server(server, {
+  cors: {
+    origin: "*", // 🔒 meglio usare l’URL Netlify in produzione
+    methods: ["GET", "POST"]
+  }
 });
 
-
-// Open the socket connection
-const server = require('http').createServer(app);
-const io = require("socket.io")(server);
-  
   // connect to DB
   require("dotenv").config();
   const urlDB = `mysql://root:${process.env.MYSQLPASSWORD}@mysql.railway.internal:3306/railway`

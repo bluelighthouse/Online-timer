@@ -578,6 +578,9 @@ if (window.location.pathname.endsWith("grouptimer.html")) {
   const userId = urlParams.get("userId");
   const timerGroupContainer = document.querySelector(".timerGroupContainer");
 
+  console.log(groupId);
+  console.log(userId);
+
   if (groupId && userId) {
     socket.emit("enterGroup", groupId, userId);
     socket.emit("getSentNotifications", groupId, userId); // Richiedi le notifiche inviate

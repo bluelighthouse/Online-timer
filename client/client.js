@@ -572,7 +572,7 @@ if (window.location.pathname.endsWith("newgroup.html")) {
 }
 
 // Verifica se siamo nella pagina timer.html
-if (window.location.pathname.endsWith("groupTimer.html")) {
+if (window.location.pathname.endsWith("grouptimer.html")) {
   const urlParams = new URLSearchParams(window.location.search);
   const groupId = urlParams.get("groupId");
   const userId = urlParams.get("userId");

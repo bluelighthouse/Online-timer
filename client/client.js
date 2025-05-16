@@ -617,7 +617,7 @@ if (window.location.pathname.endsWith("grouptimer.html")) {
             <button class='reset no-permission'>Reset</button>
           </div>`;
         }
-
+      console.log(timerElement);
       timerGroupContainer.appendChild(timerElement);
     }
   });

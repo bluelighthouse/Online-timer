@@ -69,7 +69,7 @@ if (userId) {
   socket.emit("sendUserId", userId);
 }
 // --- TIMER MANAGEMENT ---
-if (window.location.pathname.endsWith("timer.html")) {
+if (window.location.pathname.endsWith("/timer.html")) {
   // Verifica se gli elementi di timer.html esistono prima di aggiungere gli event listener
   const timerContainer = document.querySelector(".timerContainer");
   let clientTimerIds = new Set();
@@ -572,7 +572,7 @@ if (window.location.pathname.endsWith("newgroup.html")) {
 }
 
 // Verifica se siamo nella pagina timer.html
-if (window.location.pathname.endsWith("grouptimer.html")) {
+if (window.location.pathname.endsWith("/grouptimer.html")) {
   const urlParams = new URLSearchParams(window.location.search);
   const groupId = urlParams.get("groupId");
   const userId = urlParams.get("userId");

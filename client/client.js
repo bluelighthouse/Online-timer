@@ -371,7 +371,7 @@ if (window.location.pathname.endsWith("group.html")) {
           const userId = new URLSearchParams(window.location.search).get(
             "userId"
           );
-          window.location.href = `groupTimer.html?userId=${encodeURIComponent(
+          window.location.href = `grouptimer.html?userId=${encodeURIComponent(
             userId
           )}&groupId=${encodeURIComponent(groupId)}`;
         });
@@ -582,6 +582,7 @@ if (window.location.pathname.endsWith("grouptimer.html")) {
   console.log(userId);
 
   if (groupId && userId) {
+
     socket.emit("enterGroup", groupId, userId);
     socket.emit("getSentNotifications", groupId, userId); // Richiedi le notifiche inviate
   }

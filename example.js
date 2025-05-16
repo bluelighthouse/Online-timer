@@ -349,7 +349,7 @@ server.listen(PORT, () => {
                 timerValue =
                   userTimers[groupCreatorId].currentValue[timerId];
               }
-        
+              console.log([{ id: timerId, value: timerValue, user_id: timerAdminId}]);
               socket.emit("initializeTimers", {
                 groupName: groupName,
                 timers: [{ id: timerId, value: timerValue, user_id: timerAdminId}],

@@ -32,8 +32,14 @@ hr {
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 20vw;
+  height: auto;
+  max-width: 100px;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 32px);
+  font-weight: 700;
 }
 
 /* Logout */
@@ -44,6 +50,7 @@ header {
   background-color: #3e4684;
   color: white;
   padding: 1rem 2rem;
+  gap: 3rem;
   width: 100%;
 }
 
@@ -228,5 +235,3 @@ input {
 .emptyCard:hover {
   transform: translateY(-4px);
 }
-
-/* ---------- Responsive CSS ---------- */

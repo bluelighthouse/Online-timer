@@ -15,6 +15,7 @@ h1 {
   font-size: 30px;
   text-align: center;
   color: var(--s);
+  margin-top: 8px;
   margin-bottom: 5px;
 }
 
@@ -60,12 +61,12 @@ body {
   padding: 1em;
   display: flex;
   flex-direction: column;
-  gap: 0.6em;
+  gap: 0.4em;
   border-radius: 20px;
-  color: var(--s);
-  transition: box-shadow 0.3s ease;
+  margin-bottom: 1em;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
+  color: var(--s);
 }
 
 .email:hover,
@@ -157,4 +158,3 @@ svg {
   border: 2px solid #f5c6cb;
 }
 
-/* ---------- Responsive CSS ---------- */

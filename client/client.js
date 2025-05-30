@@ -280,7 +280,9 @@ if (window.location.pathname.endsWith("group.html")) {
       // Marcello
       notificationElement.innerHTML = ` 
                 <div class="notificationCard">
-                  <p> Sei stato invitato al gruppo: <strong>${notification.group_name}</strong> </p>
+                  <p> Sei stato invitato al gruppo:
+                  <strong>${notification.group_name}</strong>
+                  </p>
                   <div class="notificationActions">
                     <button class="acceptNotification" data-notification-id="${notification.id}">Accetta</button>
                     <button class="declineNotification" data-notification-id="${notification.id}">Rifiuta</button>
@@ -684,7 +686,7 @@ if (window.location.pathname.endsWith("/grouptimer.html")) {
       notifications.forEach((notification) => {
         console.log(notification.user_id);
         const notificationElement = document.createElement("div");
-        notificationElement.classList.add("notificationItem");
+        notificationElement.classList.add("notificationItem", "uniformNotification");
         notificationElement.id = `user${notification.user_id}`;
 
         let iconClass = "";
@@ -702,11 +704,11 @@ if (window.location.pathname.endsWith("/grouptimer.html")) {
         }
 
         notificationElement.innerHTML = `
-  <p>
-    ${notification.user_name} 
-    <i class="${iconClass} status-icon ${statusClass}" aria-label="${notification.status}"></i>
-  </p>
-`;
+        <div class="notificationTitle">
+          <span class="userName">${notification.user_name}</span>
+          <i class="${iconClass} status-icon ${statusClass}" aria-label="${notification.status}"></i>
+        </div>
+      `;
         notificationsContainer.appendChild(notificationElement);
       });
     }

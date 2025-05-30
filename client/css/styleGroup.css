@@ -55,10 +55,14 @@
 }
 
 #createGroupContainer label,
-#userListContainer h3 {
+h3 {
   font-weight: 600;
   color: #3e4684;
   margin-bottom: 0.5rem;
+}
+
+#createGroupContainer label {
+  margin-bottom: 0.1rem;
 }
 
 #createGroupContainer input[type="text"] {
@@ -66,6 +70,7 @@
   border: 1px solid #bccce8;
   border-radius: 8px;
   font-size: 1rem;
+  margin-top: 0.1rem;
   width: 100%;
   color: #3e4684;
   background-color: #ffffff;
@@ -128,15 +133,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 1rem;
 }
 
 .notificationCard p {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #3e4684;
+  text-align: center;
 }
 
 .notificationActions {
@@ -173,6 +175,7 @@
 
 /* Notifiche in Timer.html */
 .notificationItem {
+  width: 300px;
   background-color: #f9fbff;
   border: 2px solid #3e4684;
   border-left: 6px solid #3e4684;
@@ -180,18 +183,36 @@
   padding: 1em 1.5em;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   font-weight: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   color: #3e4684;
+  word-wrap: break-word;
+  box-sizing: border-box;
+
+}
+
+.uniformNotification {
+  width: fit-content;
+  max-width: 90%;
+}
+
+.notificationTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.userName {
+  word-break: break-word;
+  white-space: normal;
+  font-size: 1rem;
 }
 
 /* Area I tuoi gruppi */
 #userGroupsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1em;
   padding: 1em 0;
+  align-items: stretch;
 }
 
 .groupTile {
@@ -202,10 +223,13 @@
   padding: 1em;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  height: 140px;
-  transition: transform 0.2s ease;
+  min-height: 180px;
+  height: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  gap: 0.5em;
 }
 
 .groupTile:hover {

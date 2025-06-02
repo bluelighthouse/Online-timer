@@ -3,7 +3,7 @@
 Timespot is a webApp built with pure html & css for the frontEnd and Node.js for the backEnd.<br>
 It uses socket.io for updating the timers in real-time across multiple clients.
 
-Link to the page: https:://timespot.altervista.org
+Link to the page: https://timespot.altervista.org
 
 It features:
 - Timer creation and customization

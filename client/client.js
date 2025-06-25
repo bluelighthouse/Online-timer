@@ -763,7 +763,7 @@ function showMessage(message, type = "success", duration = 5000) {
     box.classList.add("hidden");
   }, duration);
 }
-
+// Andrea
 // Funzione per cercare gli utenti
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchUserInput");

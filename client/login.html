@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script type="module" src="client.js"></script>
+    <link rel="stylesheet" href="css/styleLogin.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+  <body>
+    <div id="messageBox" class="message-box hidden"></div>
+
+    <div class="screen-1">
+      <div class="logo">
+        <img alt="timer" src="violetClock.png" />
+      </div>
+
+      <h1>Welcome to TimeSpot!</h1>
+      <!-- Email -->
+      <div class="email">
+        <label for="email">Username</label>
+        <div class="sec-2">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+          />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="password">
+        <label for="password">Password</label>
+        <div class="sec-2">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input
+            class="pas"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="············"
+          />
+          <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="login" id="loginButton">Login</button>
+
+      <!-- Footer Links -->
+      <div class="footer">
+        <span onclick="window.location.href='register.html'">Sign up</span>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const togglePassword = document.querySelector(".show-hide");
+    const passwordInput = document.querySelector(".password input");
+
+    togglePassword.addEventListener("click", () => {
+      const isPassword = passwordInput.type === "password";
+      passwordInput.type = isPassword ? "text" : "password";
+      togglePassword.setAttribute(
+        "name",
+        isPassword ? "eye-off-outline" : "eye-outline"
+      );
+    });
+  });
+</script>

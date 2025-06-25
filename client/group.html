@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#317EFB" />
+    <title>Group</title>
+    <script type="module" src="client.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/styleGroup.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="title-container">
+        <img src="timer.png" alt="Logo" class="logo" />
+        <h1>TimeSpot</h1>
+      </div>
+      <div>
+        <a href="login.html" class="logout-button">Logout</a>
+      </div>
+    </header>
+
+    <div id="messageBox" class="message-box hidden"></div>
+
+    <main>
+      <section id="section-1">
+        <h2>Notifiche</h2>
+        <hr />
+        <!-- Notifiche -->
+        <div id="notificationsContainer">
+          <!-- Le notifiche saranno aggiunte dinamicamente qui -->
+        </div>
+      </section>
+
+      <section id="section-2">
+        <h2>I tuoi gruppi</h2>
+        <hr />
+        <input
+          type="text"
+          id="searchGroupInput"
+          placeholder="Cerca gruppo..."
+        />
+        <!-- Lista dei gruppi -->
+        <div id="userGroupsContainer">
+          <!-- I gruppi saranno aggiunti dinamicamente qui -->
+        </div>
+
+        <!-- Pulsante per accedere alla pagina di creazione gruppo -->
+        <div class="navNewgroup">
+          <button id="createNewGroup">Crea Nuovo Gruppo</button>
+        </div>
+      </section>
+
+      <section id="sectionNavBotton">
+        <div class="navTimerGroup">
+          <button id="homepage">Timer</button>
+          <button id="manageGroups">Gruppi</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - TimeSpot</p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  const userId = new URLSearchParams(window.location.search).get("userId");
+
+  // Navigazione
+  document.querySelector("#homepage").addEventListener("click", () => {
+    window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  document.querySelector("#manageGroups").addEventListener("click", () => {
+    window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  document.querySelector("#createNewGroup").addEventListener("click", () => {
+    window.location.href = `newgroup.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  // Evidenzia bottone attivo
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage.includes("timer.html")) {
+    document.querySelector("#homepage").classList.add("active");
+  } else if (currentPage.includes("group.html")) {
+    document.querySelector("#manageGroups").classList.add("active");
+  }
+</script>

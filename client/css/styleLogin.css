@@ -1,0 +1,160 @@
+:root {
+  --p: hsl(213deg 85% 97%);
+  --s: hsl(233deg 36% 38%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 30px;
+  text-align: center;
+  color: var(--s);
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: hsl(218deg 50% 91%);
+  min-height: 100vh;
+  padding: 2em 1em;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.screen-1 {
+  background: var(--p);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0 0 2em hsl(231deg 62% 94%);
+  gap: 1.2em;
+  width: 100%;
+  max-width: 400px;
+}
+
+.screen-1 .logo {
+  margin-top: -1.5em;
+  display: flex;
+  justify-content: center;
+}
+
+.screen-1 .logo img {
+  width: 130px;
+  margin-top: 25px;
+  margin-bottom: -15px;
+}
+
+.email,
+.password {
+  background: white;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  border-radius: 20px;
+  margin-bottom: 1em;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--s);
+}
+
+.email:hover,
+.password:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+input {
+  outline: none;
+  border: none;
+  font-size: 1em;
+  padding: 0.5em;
+  border-radius: 8px;
+  background: hsl(213deg 85% 97%);
+}
+
+input::placeholder {
+  color: black;
+  font-size: 0.9em;
+}
+
+ion-icon {
+  color: hsl(0deg 0% 30%);
+  margin-bottom: -0.2em;
+}
+
+.show-hide {
+  margin-right: -4em;
+}
+
+button.login {
+  padding: 0.8em;
+  background: var(--s);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.footer {
+  display: flex;
+  font-size: 1em;
+  color: hsl(0deg 0% 37%);
+  gap: 5em;
+  padding-bottom: 1em;
+  justify-content: center;
+}
+
+.footer span {
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+  margin: auto;
+}
+
+/* Messaggi */
+.message-box {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.message-box.hidden {
+  display: none;
+}
+
+.message-box.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.message-box.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+

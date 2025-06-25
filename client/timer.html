@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#317EFB" />
+    <title>Timer</title>
+    <script type="module" src="client.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/styleTimer.css" />
+  </head>
+  <body>
+    <header>
+      <div class="title-container">
+        <img src="timer.png" alt="Logo" class="logo" />
+        <h1>TimeSpot</h1>
+      </div>
+      <div>
+        <a href="login.html" class="logout-button">Logout</a>
+      </div>
+    </header>
+
+    <div id="messageBox" class="message-box hidden"></div>
+
+    <main>
+      <section id="section-1">
+        <h2>Timer Management</h2>
+        <hr />
+
+        <div class="timerContainer">
+          <!-- Timer elements will be dynamically added here -->
+        </div>
+
+        <button id="addTimerBtn">+</button>
+      </section>
+
+      <section id="sectionNavBotton">
+        <div class="navTimerGroup">
+          <button id="homepage">Timer</button>
+          <button id="manageGroups">Gruppi</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - TimeSpot</p>
+    </footer>
+  </body>
+</html>
+
+<script>
+  const userId = new URLSearchParams(window.location.search).get("userId");
+
+  // Navigazione
+  document.querySelector("#homepage").addEventListener("click", () => {
+    window.location.href = `timer.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  document.querySelector("#manageGroups").addEventListener("click", () => {
+    window.location.href = `group.html?userId=${encodeURIComponent(userId)}`;
+  });
+
+  // Evidenzia bottone attivo
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (currentPage.includes("timer.html")) {
+    document.querySelector("#homepage").classList.add("active");
+  } else if (currentPage.includes("group.html")) {
+    document.querySelector("#manageGroups").classList.add("active");
+  }
+</script>
+

@@ -23,6 +23,9 @@ function startStop(socket, userId, timerId) {
         userTimers[userId].intervals[timerId] = null;
         userTimers[userId].currentValue[timerId] = 0;
         io.emit("updateTimer", timerId, 0);
+          
+        // ✅ NOTIFICA: avvisa i client che il timer è scaduto
+        io.emit("timerFinished", timerId);  
       } else {
         userTimers[userId].currentValue[timerId] = remaining;
         io.emit("updateTimer", timerId, Math.floor(remaining));

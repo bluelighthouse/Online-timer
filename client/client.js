@@ -1,3 +1,9 @@
+if (Notification.permission !== "granted") {
+  Notification.requestPermission().then((permission) => {
+    console.log("Notification permission: ", permission);
+  });
+}
+
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
 
@@ -114,6 +120,20 @@ if (window.location.pathname.endsWith("/timer.html")) {
     }
   });
 
+   socket.on("timerFinished", (timerId) => {
+  // ✅ Mostra una notifica browser
+  if (Notification.permission === "granted") {
+    new Notification("Timer terminato!", {
+      body: `Il timer #${timerId} è arrivato a 0.`,
+      icon: "timer.png" // Cambia se hai un’icona diversa
+    });
+  }
+
+  // ✅ Suona un audio
+  const audio = new Audio("alarm.mp3"); // Metti un file mp3 nella cartella client
+  audio.play();
+});
+  
   socket.on("initializeTimers", (timers) => {
     timerContainer.innerHTML = "";
     clientTimerIds.clear(); // Marcello
